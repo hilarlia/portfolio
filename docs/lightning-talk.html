@@ -35,69 +35,71 @@
       <article class="deck-prose talk-block">
         <h2>Problem statement</h2>
         <p>
-          In practical quantum applications, the same system is often reused across a sequence of tasks.
-          The central question is: how should we choose actions to maximize cumulative performance without
-          a brute-force search over all possible outcome-contingent plans?
+          In practical applications utilizing quantum systems, the same system at hand
+may need to be reused for several tasks. However, reinitializing the quantum state can be costly, to
+the point where a discrete set of control operations is preferable. Because each quantum operation,
+including measurement, can change the state and yield probabilistic outcomes, an action that
+maximizes the utility of the quantum state for one task may reduce its utility for later tasks, and
+the controller may need to plan the actions for each possible outcome. This motivates the research
+that will be followed in the 16.S897 course, which will be referred to as the quantum chameleon
+problem: how should a controller decide on its actions to maximize performance across a sequence
+of tasks with less computational complexity?
         </p>
 
         <h2>Why this matters, and why it is hard</h2>
         <p>
-          Reinitializing the state between tasks can be expensive, so the controller typically relies on a finite
-          set of control operations. But each operation and measurement can alter the state stochastically.
-          So an action that helps now can hurt later. Preliminary analysis indicates that the contingent action space
-          can grow doubly exponentially with horizon length, which makes unstructured search computationally prohibitive.
+          Quantum sensors and processors need fast, reliable control as their tasks
+change. On the other hand, a preliminary investigation shows that the number of possible actions
+grows doubly exponentially with the number of tasks, demonstrating that deciding actions through
+brute-force search is computationally challenging. Therefore, the investigation should be extended to
+include decision-making policies providing theoretical guarantees on their proximity to the optimal
+policies that decide on the optimal sequence of actions.
         </p>
 
         <h2>Analogy: the quantum chameleon</h2>
         <p>
-          I use a chameleon analogy: one organism, changing surroundings, adaptive response. The same intuition applies
-          to a quantum controller that must adapt to task context while preserving future optionality.
+          A Chameleon adapts to the color of the environment to increase its chance of survival. This is similar to the quantum system in our problem setting, where the system must be transformed to fit the specifics of the tasks it is intended to perform.
         </p>
         <figure class="visual-figure deck-figure">
           <img src="./assets/figure1-chameleon-astra.svg" width="1400" height="650" alt="Three detailed habitat panels connected by flat arrows. A small line-drawn chameleon changes from green in a leafy understory, to ochre in dry scrub, to blue in cool forest shade.">
-          <figcaption><b>Figure 1.</b> Chameleon analogy across changing environments.</figcaption>
+          <figcaption><b>Figure 1.</b> A Chameleon adapts to the color of the environment to increase its chance of survival.</figcaption>
         </figure>
 
         <h2>Formal process view</h2>
         <p>
-          In each stage, the controller selects an action, the task transforms the current quantum state,
-          random outcomes are observed, and stage reward is accrued. Outcomes feed back to the controller,
-          and the updated state is reused in the next stage. The objective is expected cumulative reward.
+          At each stage, the controller decides an action to perform on the quantum state to prepare it for future tasks. Actions performed by the controller, as well as the task that the state has been through, 
+          induce a change on the quantum state in a probabilistic manner. Rewards quantify how well the quantum state adapts to a specific task, and the aim is to maximize the cumulative reward across all tasks.
         </p>
         <figure class="visual-figure deck-figure">
           <img src="./assets/figure2-qchameleon-tool.png" width="5968" height="1706" alt="Author-provided stage-wise quantum decision process diagram from FigTool_QChameleon: controller, stage actions, task transitions, and cumulative reward flow.">
-          <figcaption><b>Figure 2.</b> Author-provided process diagram (from <a href="./assets/FigTool_QChameleon.pdf">FigTool_QChameleon.pdf</a>).</figcaption>
+          <figcaption><b>Figure 2.</b> A detailed setting of the quantum chameleon problem, where the controller decides actions on a quantum state that induce a probabilistic change in the state. The aim is to maximize the cumulative reward obtained over all the stages.</figcaption>
         </figure>
 
         <h2>Core research question</h2>
         <p>
-          What is the effective dimensionality of this decision problem: the smallest state representation that retains
-          decision-relevant information for future reward, so that planning in that reduced space remains near-optimal
-          with theoretical guarantees?
+          The manuscript developed throughout the semester will include the
+mathematical formulation of the problem and decision-making policies in the context of quantum
+systems, as well as the development of approximately optimal policies. In order to develop such
+policies, the following question needs to be answered: What is the quantity that captures the
+effective dimensionality of the problem such that it suffices for the controller to decide on the actions
+by searching over this effective dimension to achieve an approximately optimal policy?
+Formulation and characterization of this quantity will pave the way for quantifying the fundamental
+bounds on the computational complexity of approximately-optimal policies, as well as development
+of such policies.
         </p>
         <figure class="visual-figure deck-figure">
           <img src="./assets/figure3-effective-dimension-astra.svg" width="1440" height="740" alt="Nature-style four-step schematic: many full-state coordinates pass through a reward-relevance filter, only retained coordinates continue as reduced variables, and action selection is performed in the smaller space with improved complexity scaling.">
-          <figcaption><b>Figure 3.</b> Reward-relevant dimensionality reduction for near-optimal action selection.</figcaption>
+          <figcaption><b>Figure 3.</b> If the problem's effective dimensionality is small, this can be exploited to design near-optimal policies with lower computational complexity.</figcaption>
         </figure>
 
-        <h2>Where the project stands now</h2>
-        <ul>
-          <li>I am starting from an unpublished manuscript that sets up a quantum MDP model and initial theoretical bounds.</li>
-          <li>My first task this term is to stress-test assumptions and derivations, and identify exactly where the arguments are fragile.</li>
-          <li>In parallel, I am building benchmark cases where reduced-state planning can be clearly validated or falsified.</li>
-          <li>The deliverable is a reproducible package: clean proofs, simulations, publication-quality figures, and a transparent AI-use log.</li>
-        </ul>
 
-        <h2>My AI workflow and verification rule</h2>
+        <h2>What I expect the agent to do.</h2>
         <ul>
-          <li>I use AI to generate alternatives: consistency checks, counterexample candidates, and competing derivation paths.</li>
-          <li>I also use AI to speed implementation work (simulation scaffolding and figure iteration), not to replace validation.</li>
-          <li>Any claim that enters the manuscript must be independently re-derived or numerically verified by me.</li>
+          <li>Consistency checks for the mathematical claims</li>
+          <li>Derivation and formalization of proofs</li>
+          <li>Finding relevant examples and testing the results via numerical simulations</li>
+          <li>Producing high-quality image that conforms to the House Style standards of the research group</li>
         </ul>
-
-        <div class="note">
-          <p><strong>Discussion question:</strong> What is the minimal benchmark where a reduced representation first fails to preserve future reward quality?</p>
-        </div>
       </article>
 
       
