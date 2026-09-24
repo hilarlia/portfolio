@@ -45,7 +45,10 @@ that will be followed in the 16.S897 course, which will be referred to as the qu
 problem: how should a controller decide on its actions to maximize performance across a sequence
 of tasks with less computational complexity?
         </p>
-
+        <figure class="visual-figure deck-figure">
+          <img src="./assets/figure-problem-statement.svg" width="5968" height="1706" alt="">
+          <figcaption><b>Figure 1.</b> In some cases, the quantum state may need to be reused for sequential tasks, and reinitialization can be costly. In order to utilize the same quantum state for many tasks, a discrete set of (cheaper) control operations can be applied before employing it for a certain task.</figcaption>
+        </figure>
         <h2>Why this matters, and why it is hard</h2>
         <p>
           Quantum sensors and processors need fast, reliable control as their tasks
@@ -55,14 +58,14 @@ brute-force search is computationally challenging. Therefore, the investigation 
 include decision-making policies providing theoretical guarantees on their proximity to the optimal
 policies that decide on the optimal sequence of actions.
         </p>
-
+        
         <h2>Analogy: the quantum chameleon</h2>
         <p>
           A Chameleon adapts to the color of the environment to increase its chance of survival. This is similar to the quantum system in our problem setting, where the system must be transformed to fit the specifics of the tasks it is intended to perform.
         </p>
         <figure class="visual-figure deck-figure">
           <img src="./assets/figure1-chameleon-astra.svg" width="1400" height="650" alt="Three detailed habitat panels connected by flat arrows. A small line-drawn chameleon changes from green in a leafy understory, to ochre in dry scrub, to blue in cool forest shade.">
-          <figcaption><b>Figure 1.</b> A Chameleon adapts to the color of the environment to increase its chance of survival.</figcaption>
+          <figcaption><b>Figure 2.</b> A Chameleon adapts to the color of the environment to increase its chance of survival.</figcaption>
         </figure>
 
         <h2>Formal process view</h2>
@@ -71,8 +74,8 @@ policies that decide on the optimal sequence of actions.
           induce a change on the quantum state in a probabilistic manner. Rewards quantify how well the quantum state adapts to a specific task, and the aim is to maximize the cumulative reward across all tasks.
         </p>
         <figure class="visual-figure deck-figure">
-          <img src="./assets/figure2-qchameleon-tool.png" width="5968" height="1706" alt="Author-provided stage-wise quantum decision process diagram from FigTool_QChameleon: controller, stage actions, task transitions, and cumulative reward flow.">
-          <figcaption><b>Figure 2.</b> A detailed setting of the quantum chameleon problem, where the controller decides actions on a quantum state that induce a probabilistic change in the state. The aim is to maximize the cumulative reward obtained over all the stages.</figcaption>
+          <img src="./assets/figure2-qchameleon-tool.png" width="5968" height="1706" alt="">
+          <figcaption><b>Figure 3.</b> A detailed setting of the quantum chameleon problem, where the controller decides actions on a quantum state that induce a probabilistic change in the state. The aim is to maximize the cumulative reward obtained over all the stages.</figcaption>
         </figure>
 
         <h2>Core research question</h2>
@@ -88,8 +91,8 @@ bounds on the computational complexity of approximately-optimal policies, as wel
 of such policies.
         </p>
         <figure class="visual-figure deck-figure">
-          <img src="./assets/figure3-effective-dimension-astra.svg" width="1440" height="740" alt="Nature-style four-step schematic: many full-state coordinates pass through a reward-relevance filter, only retained coordinates continue as reduced variables, and action selection is performed in the smaller space with improved complexity scaling.">
-          <figcaption><b>Figure 3.</b> If the problem's effective dimensionality is small, this can be exploited to design near-optimal policies with lower computational complexity.</figcaption>
+          <img src="./assets/figure3-effective-dimension-astra.svg" width="1440" height="740" alt="">
+          <figcaption><b>Figure 4.</b> If the problem's effective dimensionality is small, this can be exploited to design near-optimal policies with lower computational complexity.</figcaption>
         </figure>
 
 
