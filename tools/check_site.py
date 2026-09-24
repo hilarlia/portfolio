@@ -138,9 +138,10 @@ class SiteChecks(unittest.TestCase):
 
     def test_plain_pages_deployment(self):
         self.assertEqual(ROOT.name, 'docs')
-        self.assertEqual({p.name for p in ROOT.glob('*.html')}, set(PAGES))
+        html_pages = {p.name for p in ROOT.glob('*.html')}
+        self.assertTrue(set(PAGES).issubset(html_pages))
         self.assertTrue((ROOT / '.nojekyll').is_file())
-        for name in PAGES:
+        for name in html_pages:
             self.assertNotIn('<script', (ROOT / name).read_text().lower())
 
 
