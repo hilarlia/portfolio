@@ -350,3 +350,95 @@ main { flex: 1; }
   .page-main { padding: 0; }
   a { color: inherit; }
 }
+
+/* Optional visual walkthrough on project page */
+.visual-toggle {
+  margin-top: 10px;
+  border: 1px solid var(--rule);
+  padding: 10px 14px;
+  background: #fbfcff;
+}
+.deck-launch {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px 12px;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-weight: 700;
+}
+.deck-launch:hover { background: #eef2ff; text-decoration: none; }
+.visual-figure { margin: 18px 0 28px; }
+.visual-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+.visual-figure figcaption { margin-top: 8px; color: var(--muted); }
+
+/* Code and Prompt Card Styling */
+code {
+  font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.9em;
+  background: #f1f3f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+pre {
+  font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  background: #f6f8fd;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--blue);
+  padding: 14px 16px;
+  overflow-x: auto;
+  border-radius: 4px;
+  margin: 12px 0 20px;
+  white-space: pre-wrap;
+}
+.prompt-card {
+  margin: 20px 0 28px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #fff;
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.prompt-card h3, .prompt-card h4 {
+  margin-top: 0;
+  color: var(--blue);
+}
+
+/* Full-page Lightning Talk deck */
+.deck-main {
+  padding: 46px 0 70px;
+}
+.deck-container {
+  width: min(96vw, 1620px);
+  margin: 0 auto;
+}
+.deck-header {
+  margin-bottom: 26px;
+}
+.deck-prose {
+  max-width: none;
+  font-size: 1.14rem;
+}
+.deck-prose h2 {
+  font-size: 1.65rem;
+  margin-top: 30px;
+}
+.deck-figure {
+  margin: 20px 0 34px;
+}
+.deck-figure img {
+  width: min(100%, 1560px);
+  margin-inline: auto;
+}
+
+@media (max-width: 680px) {
+  .deck-main { padding: 28px 0 44px; }
+  .deck-prose { font-size: 1rem; }
+  .deck-prose h2 { font-size: 1.35rem; }
+}
