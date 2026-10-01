@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BBPSSW entanglement purification in Lean, with verified theorems and a minimal, auditable proof.">
-  <title>Ufuk Keskin | Reproducing a Paper Result with Lean</title>
-  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="A beginner’s guide to BBPSSW: how two noisy entangled pairs can yield one better pair, and what this project verifies with Lean.">
+  <title>Ufuk Keskin | BBPSSW: A Beginner’s Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,59 +24,168 @@
     </div>
   </header>
 
-  <main id="main" class="deck-main container">
-    <div class="deck-container">
-      <header class="deck-header">
-        <h1>BBPSSW entanglement purification in Lean</h1>
-        <p class="lead">Lean code and verification of the BBPSSW protocol</p>
-        <p><a href="project.html">← Back to My Project</a></p>
-      </header>
+  <main id="main" class="container bbpssw-main">
+    <header class="page-heading">
+      <p><a href="project.html">← Back to My Project</a></p>
+      <h1>Making quantum connections more reliable</h1>
+      <p class="lead">A beginner’s guide to BBPSSW entanglement purification—and how Lean checks the mathematics behind one round.</p>
+      <p>No quantum physics or programming background is assumed. Start with the idea; the equations and instructions for checking the proof come later.</p>
+    </header>
 
-      <article class="deck-prose talk-block">
-        <section aria-labelledby="bbpssw-explained">
-          <h2 id="bbpssw-explained">BBPSSW in plain terms</h2>
-          <p>BBPSSW stands for Bennett–Brassard–Popescu–Schumacher–Smolin–Wootters, a quantum-information protocol designed to improve the quality of entanglement shared between two remote parties. In practice, two noisy entangled pairs (qubits connected across space) are processed with local operations and simple classical communication to produce fewer pairs with higher fidelity to a perfect entangled state. The BBPSSW protocol is a concrete recipe for such purification, using measurements and local gates to distill better entanglement. In this Lean project, we model a single round of that protocol on two Werner states and verify (auditable, machine-checked) properties about the fidelity improvement. The narrative here is aimed at a non-specialist audience (AeroAstro), so we emphasize intuition and practical meaning rather than the algebraic details.</p>
-        </section>
+    <article class="prose bbpssw-prose">
+      <section aria-labelledby="introduction">
+        <h2 id="introduction">1. The problem: useful connections are fragile</h2>
+        <p>Future quantum networks aim to connect devices using <strong>entanglement</strong>, a shared quantum resource. It can support tasks such as transferring an unknown quantum state between devices through a procedure called quantum teleportation. This is a transfer of quantum information, not the transport of a physical object, and it also requires an ordinary message.</p>
+        <p>The difficulty is that interactions with the environment can damage the shared resource. Even when both particles arrive, their joint state may no longer be the one the network needs. We call this unwanted disturbance <strong>noise</strong>.</p>
+        <p><strong>BBPSSW</strong> is a recipe for trading quantity for quality: take two imperfect entangled pairs, test them together, and sometimes keep one pair that is better than either input. The name comes from its six authors: Bennett, Brassard, Popescu, Schumacher, Smolin, and Wootters, who published the protocol in 1996.</p>
+        <div class="bbpssw-callout">
+          <p><strong>The central result:</strong> for the particular noise model studied here, if each input pair’s quality is above 50% but below 100%, a successful round produces one pair with strictly higher quality. Success is not guaranteed, and two input pairs yield at most one output pair.</p>
+        </div>
+        <p>This project uses <strong>Lean</strong>, a computer proof assistant, to verify that claim from an explicit mathematical description of the operations. It checks a theorem, rather than running a physical experiment.</p>
+      </section>
 
-        <h2>Scope</h2>
-        <p>
-          The project encodes a complete, verified Lean formalization of a single round of the BBPSSW entanglement purification protocol for two Werner pairs. The formalization includes local operations, Bell projectors, a finite twirl, and a proof that the fidelity improves within the trusted range (1/2 < F < 1).
-        </p>
-        <p>
-          The Lean code lives in the bbpssw-lean directory. The repository ships with a ready-to-run verification workflow and a published audit routine to ensure there are no hidden axioms beyond the usual propositional logic foundations.
-        </p>
+      <nav class="bbpssw-contents" aria-label="On this page">
+        <h2>On this page</h2>
+        <ol start="2">
+          <li><a href="#building-blocks">Qubits, entanglement, and quality</a></li>
+          <li><a href="#protocol">One round, step by step</a></li>
+          <li><a href="#worked-example">A numerical example</a></li>
+          <li><a href="#equations">Where the numbers come from</a></li>
+          <li><a href="#lean-proof">What Lean verifies</a></li>
+          <li><a href="#limitations">Assumptions and limits</a></li>
+          <li><a href="#explore-code">Explore and check the proof</a></li>
+          <li><a href="#references">The original research</a></li>
+        </ol>
+      </nav>
 
-        
+      <section aria-labelledby="building-blocks">
+        <h2 id="building-blocks">2. The building blocks</h2>
+        <h3>What is a qubit?</h3>
+        <p>An ordinary bit takes the value 0 or 1. A <strong>qubit</strong> is a quantum system with two reference states, also called 0 and 1. Unlike an ordinary bit, it can be prepared in a superposition of those states. A measurement in this 0/1 basis returns one ordinary outcome: 0 or 1. It does not let us read out two values at once.</p>
+        <h3>What is an entangled pair?</h3>
+        <p>Imagine two people, conventionally called <strong>Alice</strong> and <strong>Bob</strong>, in separate laboratories. Each holds one qubit of a pair. If the pair is entangled, its joint quantum state cannot be described simply as independent states for Alice’s and Bob’s qubits, or as a lottery over such independent states.</p>
+        <p>The ideal pair used here is a <strong>Bell state</strong>, named Phi-plus (Φ+). If Alice and Bob both measure it in the 0/1 basis, they obtain 00 or 11 with equal probability. Each individual result is random, but their results agree. Agreement in this one basis alone is not proof of entanglement—ordinary shared random bits could do that too. The Bell state also has quantum correlations in other measurement bases that distinguish it from that classical example.</p>
+        <p>Entanglement does not allow faster-than-light messaging. Alice cannot choose her random measurement outcome to send Bob a message.</p>
+        <h3>How do we measure quality?</h3>
+        <p>Here, <strong>fidelity</strong>, written <var>F</var>, measures how closely a pair matches the chosen ideal Bell state. It ranges from 0 to 1; <var>F</var> = 1 means a perfect match. More precisely, it is the probability of passing an ideal test that asks whether the pair is in that target state. That is a definition of quality, not a test Alice and Bob directly perform during purification.</p>
+        <p>The proof studies a special symmetric noise model called a <strong>Werner state</strong> in the project’s Bell-state convention. There are four Bell states: the target state and three alternatives. The target has weight <var>F</var>, and each alternative has equal weight (1 − <var>F</var>)/3. Think of these as probabilities describing a noisy preparation. This simplifies the problem to one quality number, but it does not describe every possible kind of noise.</p>
+      </section>
 
-        
+      <section aria-labelledby="protocol">
+        <h2 id="protocol">3. One round, step by step</h2>
+        <p>Alice and Bob start with <strong>two independent pairs of the same quality</strong>. Alice holds one qubit from each pair, and Bob holds the other two. Call the first pair the <em>source</em>, which might survive, and the second the <em>target</em>, which will be measured and used up.</p>
+        <ol class="bbpssw-steps">
+          <li><strong>Couple the two qubits within each laboratory.</strong> Alice applies a controlled-NOT gate (CNOT) from her source qubit to her target qubit. Bob does the same with his two qubits. On 0/1 states, this gate flips the target bit exactly when the source bit is 1; it also acts coherently on superpositions. Neither person needs to send a qubit to the other during this round.</li>
+          <li><strong>Measure the target pair.</strong> Alice and Bob each measure their target qubit in the 0/1 basis. They now have one ordinary bit each. The target pair is consumed by this measurement; it is not a second purified output.</li>
+          <li><strong>Compare the results through an ordinary message.</strong> They share their bits over a classical channel, such as a conventional data link. If the results agree—00 or 11—they keep the source pair. If they disagree—01 or 10—they discard it. An accepted result is what “success” means here; it does not mean the surviving pair is perfect.</li>
+          <li><strong>Restore the symmetric noise form.</strong> The kept pair generally no longer has three equal error weights. Alice and Bob make a coordinated random choice of local rotations and then discard the record of that choice. This averaging, called a <em>twirl</em>, makes those three weights equal again while preserving fidelity to the target Bell state. The output is then described by the same kind of one-number noise model as the input.</li>
+        </ol>
+        <h3>Why can this help?</h3>
+        <p>The local gates make the agreement test sensitive to some errors in the two input pairs. Rejecting disagreement removes some less favorable cases. Among the surviving cases, the target Bell state consequently has a larger share—provided the starting fidelity is in the range covered by the theorem.</p>
+        <p>This is <strong>selection, not a guaranteed repair</strong>. Alice and Bob learn whether to keep a pair without directly measuring the source qubits. They neither identify every error nor create perfect entanglement out of nothing: they spend two noisy resources and accept a chance of losing both.</p>
+      </section>
 
-        <h2>Paper and precise scope</h2>
-        <p>
-          The BBPSSW Lean project follows the same target as the Physical Review Letters BBPSSW paper but remains focused on a single round and a finite twirl. The main theorems track fidelity improvement and the positive probability of successful purification within the given fidelity window.
-        </p>
+      <section aria-labelledby="worked-example">
+        <h2 id="worked-example">4. A concrete example: 75% becomes about 78.8%</h2>
+        <p>Suppose both input pairs have fidelity <var>F</var> = 3/4, or 75%. The verified formulas give:</p>
+        <dl class="bbpssw-results">
+          <dt>Chance that the round is accepted</dt>
+          <dd>13/18 ≈ <strong>72.2%</strong>.</dd>
+          <dt>Quality of the retained pair, conditional on acceptance</dt>
+          <dd>41/52 ≈ <strong>78.8% fidelity</strong>, up from 75%.</dd>
+          <dt>Resource cost</dt>
+          <dd>Two input pairs per attempt; one output pair on success, none on failure.</dd>
+        </dl>
+        <p>For example, 1,000 attempts consume 2,000 input pairs and produce about 722 retained pairs <em>on average</em>. Their state, after the twirl, has the higher fidelity above. The actual number retained fluctuates. The 78.8% figure is a state-quality measure, not a count of pairs that Alice and Bob can individually label “perfect.”</p>
+        <p>The improvement is about 3.8 percentage points in one round. In principle, retained pairs can be collected and paired up for further rounds, trading away still more pairs. This project’s main theorem establishes the single-round step, not a complete long-run network performance guarantee.</p>
+      </section>
 
-        <h2>Mathematical definitions (Lean perspective)</h2>
-        <p>
-          The formalization uses a small collection of primitives: Bell projectors, Werner states, twirl operators, and the BBPSSW recurrence rules. See the bbpssw-lean directory for the exact Lean modules (BBPSSW, Recurrence, Protocol, Twirl, Main, and Audit).
-        </p>
-        <p>
-          A typical development note is that a state is encoded as a density-like object, and the theorems are proved using Lean’s typeclass and algebraic infrastructure. The code mirrors the paper’s structure while staying explicit about assumptions and verifications.
-        </p>
+      <section aria-labelledby="equations">
+        <h2 id="equations">5. Where the numbers come from</h2>
+        <p>You can follow the rest of the page without doing the algebra. These equations make the result precise and connect the explanation to the code.</p>
+        <p>Let <var>q</var> = (1 − <var>F</var>)/3 be the weight of each of the three non-target Bell states. Let <var>P</var>(<var>F</var>) be the acceptance probability, and let <var>F</var>′ (read “F-prime”) be the output fidelity after a successful round.</p>
+        <div class="bbpssw-equations">
+          <p><var>P</var>(<var>F</var>) = <var>F</var><sup>2</sup> + 2<var>Fq</var> + 5<var>q</var><sup>2</sup></p>
+          <p><var>F</var>′ = (<var>F</var><sup>2</sup> + <var>q</var><sup>2</sup>) / <var>P</var>(<var>F</var>)</p>
+        </div>
+        <p>The denominator counts all accepted cases. The numerator is the accepted contribution belonging to the target Bell state. Dividing by the acceptance probability is <strong>conditioning</strong>: we ask about quality among the cases we keep, rather than among all attempts. The products of input weights arise because the two input pairs are independent.</p>
+        <p>For <var>F</var> = 3/4, each error weight is <var>q</var> = 1/12. The acceptance probability is 13/18, and the numerator is 41/72. Their ratio is (41/72) / (13/18) = 41/52, as in the example.</p>
+        <p>The central inequalities are:</p>
+        <div class="bbpssw-equations">
+          <p>If 1/2 &lt; <var>F</var> &lt; 1, then <strong><var>F</var> &lt; <var>F</var>′ &lt; 1</strong> and <strong>5/9 &lt; <var>P</var>(<var>F</var>) ≤ 1</strong>.</p>
+        </div>
+        <p>In words: a successful round improves the pair without making it perfect, and acceptance has probability greater than about 55.6%. At exactly <var>F</var> = 1/2 the update gives 1/2 again; at <var>F</var> = 1 it gives 1. Neither boundary has a strict improvement. The 50% threshold belongs to this input model and target-state convention, not to arbitrary noisy quantum systems.</p>
+        <details class="bbpssw-details">
+          <summary>How the quantum state is represented in the proof</summary>
+          <p>A <strong>density matrix</strong> is a table of numbers describing a quantum state, including both quantum coherence and uncertainty in its preparation. A physical density matrix is Hermitian (equal to its conjugate transpose), positive (giving nonnegative probabilities), and has trace one (total probability one). The trace is the sum of its diagonal entries.</p>
+          <p>A <strong>Bell projector</strong> is the matrix for the ideal yes/no test of one Bell state. The input density matrix is a weighted sum of four such projectors, with weights [<var>F</var>, <var>q</var>, <var>q</var>, <var>q</var>]. “Bell-diagonal” means a mixture of these Bell states without coherence between them.</p>
+          <p>The calculation first adds the two accepted measurement branches, 00 and 11. This intermediate matrix has trace <var>P</var>(<var>F</var>), rather than one. Dividing by its positive trace <strong>normalizes</strong> it into the state conditioned on acceptance.</p>
+          <p>The finite twirl used here averages three choices: do nothing, apply a particular coordinated local rotation, or apply that rotation twice. The rotation fixes the target Bell state and cycles the other three. Averaging therefore equalizes their weights. This construction is sufficient for the Bell-diagonal states produced here; it is not claimed to symmetrize arbitrary input matrices.</p>
+        </details>
+      </section>
 
-        <h2>File guide</h2>
+      <section aria-labelledby="lean-proof">
+        <h2 id="lean-proof">6. What does Lean actually verify?</h2>
+        <p>A simulation might evaluate the recipe for a list of input fidelities. A mathematical proof establishes a statement for <em>every</em> fidelity satisfying its assumptions. <strong>Lean</strong> is a programming language and proof assistant in which definitions, theorem statements, and proofs are written so that a small logical kernel can check each inference. <strong>Mathlib</strong> supplies existing mathematical definitions and results.</p>
+        <p>This development connects the actual modeled circuit to the quality formula; it does not merely assume the formula and show that its value increases. Its main theorem, <code>bbpssw_correct</code>, combines these claims:</p>
         <ul>
-          <li>BBPSSW/Basic.lean — Exact complex matrices, Bell projectors, positivity, trace, fidelity</li>
-          <li>BBPSSW/Recurrence.lean — Rational recurrence, denominator positivity, success bound, strict gain</li>
-          <li>BBPSSW/Protocol.lean — Local CNOT, measurement branches, accepted state, normalization</li>
-          <li>BBPSSW/Twirl.lean — Local Clifford averaging and complete state-level recurrence</li>
-          <li>BBPSSW/Main.lean — Main physical correctness theorem</li>
-          <li>Audit.lean — Transitive axiom whitelist audit and printed main theorem</li>
+          <li>The modeled input and final output are valid quantum density matrices.</li>
+          <li>The local gates and accepted measurement outcomes give exactly the stated success probability, with 5/9 &lt; <var>P</var>(<var>F</var>) ≤ 1 in the improvement range.</li>
+          <li>After conditioning and twirling, the entire output state is the same symmetric family of state, now with fidelity <var>F</var>′.</li>
+          <li>For every real <var>F</var> with 1/2 &lt; <var>F</var> &lt; 1, the output satisfies <var>F</var> &lt; <var>F</var>′ &lt; 1.</li>
         </ul>
-        <p>
-          The exact example F = 3/4 is included as example_three_quarters in the verification suite, confirming the computed probabilities and fidelity updates.
-        </p>
-      </article>
-    </div>
+        <p>The calculations use exact mathematics, not floating-point tolerances or sampled test cases. The repository includes recorded build results and an <strong>axiom audit</strong> for 42 named theorems. The audit checks the foundational assumptions each theorem depends on, including dependencies reached through other theorems. It permits only Lean’s standard <code>propext</code>, <code>Classical.choice</code>, and <code>Quot.sound</code>, not custom unproved mathematical claims or incomplete proof placeholders.</p>
+        <p>A checked proof is strong evidence for the <em>statement that was encoded</em>. People still need to review whether the definitions capture the intended physics and whether the theorem matches the paper. Lean does not independently certify a laboratory device or the interpretation of a model.</p>
+      </section>
+
+      <section aria-labelledby="limitations">
+        <h2 id="limitations">7. Assumptions and limits</h2>
+        <ul>
+          <li><strong>Restricted inputs.</strong> The two pairs are independent, identically prepared Werner pairs with the same fidelity. Correlated pairs, unequal input fidelities, and general noise models are not covered by the main theorem.</li>
+          <li><strong>Ideal operations.</strong> Gates, measurements, and the coordinated twirl are modeled without implementation errors. The result does not establish robustness to faulty hardware.</li>
+          <li><strong>One round, with a conditional output.</strong> Acceptance probability is proved, but higher output fidelity applies only when the round succeeds. The proof does not claim that every attempt yields a better pair.</li>
+          <li><strong>No optimality or long-run rate theorem.</strong> It does not prove this is the best possible protocol, or establish the paper’s full asymptotic distillation result—a guarantee about the number of good pairs obtainable from very many inputs. It also does not verify the separate hashing protocols used in such analyses.</li>
+        </ul>
+        <p>The precise contribution is a machine-checked bridge from a specified one-round circuit to a valid output state, an exact acceptance probability, and a strict improvement in fidelity.</p>
+      </section>
+
+      <section aria-labelledby="explore-code">
+        <h2 id="explore-code">8. Explore and check the proof</h2>
+        <p>The <a href="https://github.com/hilarlia/portfolio/tree/main/bbpssw-lean">complete Lean project lives in <code>bbpssw-lean/</code></a>. You do not need to run it to understand the result. If you want to examine the formal argument, these are its main pieces; file paths below are relative to that directory.</p>
+        <ul class="bbpssw-file-guide">
+          <li><a href="https://github.com/hilarlia/portfolio/blob/main/bbpssw-lean/BBPSSW/Basic.lean"><code>BBPSSW/Basic.lean</code></a> — Defines states, Bell projectors, and fidelity, and proves that the input states are physically valid.</li>
+          <li><a href="https://github.com/hilarlia/portfolio/blob/main/bbpssw-lean/BBPSSW/Recurrence.lean"><code>BBPSSW/Recurrence.lean</code></a> — Proves the properties of the probability and fidelity formulas, including the exact 75% example.</li>
+          <li><a href="https://github.com/hilarlia/portfolio/blob/main/bbpssw-lean/BBPSSW/Protocol.lean"><code>BBPSSW/Protocol.lean</code></a> — Models the local gates, measurement outcomes, acceptance, and conditioning.</li>
+          <li><a href="https://github.com/hilarlia/portfolio/blob/main/bbpssw-lean/BBPSSW/Twirl.lean"><code>BBPSSW/Twirl.lean</code></a> — Proves that the explicit local averaging restores the symmetric state with the updated fidelity.</li>
+          <li><a href="https://github.com/hilarlia/portfolio/blob/main/bbpssw-lean/BBPSSW/Main.lean"><code>BBPSSW/Main.lean</code></a> — Assembles the main correctness theorem.</li>
+          <li><a href="https://github.com/hilarlia/portfolio/blob/main/bbpssw-lean/Audit.lean"><code>Audit.lean</code></a> — Checks the allowed foundational assumptions of the listed theorems and prints the main result.</li>
+        </ul>
+        <details class="bbpssw-details">
+          <summary>Run the verification yourself (macOS or Linux)</summary>
+          <p>First download or clone the repository. In a terminal, from its root directory, run:</p>
+          <pre><code>cd bbpssw-lean
+bash run.sh</code></pre>
+          <p>The script installs the Lean toolchain manager into your user account if needed, downloads the pinned Lean 4.19.0 toolchain and Mathlib dependencies, builds the proofs, and runs the audit. The first run needs Git, curl, an internet connection, several gigabytes of free disk space, and time for downloads and compilation. Review the script before running it if you do not want it to install tools automatically.</p>
+          <p>With the toolchain and dependencies already available, the core commands from <code>bbpssw-lean/</code> are:</p>
+          <pre><code>lake build
+lake env lean Audit.lean</code></pre>
+          <p><code>lake</code> is Lean’s project build tool. A successful audit prints <code>BBPSSW AUDIT PASSED</code>. The runner also writes <code>build.log</code> and <code>audit.log</code>. See the <a href="https://github.com/hilarlia/portfolio/blob/main/bbpssw-lean/README.md">project README</a> for setup notes and the <a href="https://github.com/hilarlia/portfolio/blob/main/bbpssw-lean/VERIFICATION.md">verification record</a> and <a href="https://github.com/hilarlia/portfolio/tree/main/bbpssw-lean/verification">saved logs</a> for the recorded checks.</p>
+        </details>
+      </section>
+
+      <section aria-labelledby="references">
+        <h2 id="references">9. The original research</h2>
+        <p>C. H. Bennett, G. Brassard, S. Popescu, B. Schumacher, J. A. Smolin, and W. K. Wootters, <cite>Purification of Noisy Entanglement and Faithful Teleportation via Noisy Channels</cite>, Physical Review Letters <strong>76</strong>, 722–725 (1996).</p>
+        <ul>
+          <li><a href="https://doi.org/10.1103/PhysRevLett.76.722">Published paper</a> · <a href="https://arxiv.org/abs/quant-ph/9511027">Open-access manuscript</a></li>
+          <li><a href="https://doi.org/10.1103/PhysRevLett.78.2031">Erratum, Physical Review Letters 78, 2031 (1997)</a></li>
+        </ul>
+        <p>The formalization targets the paper’s Equation (7) and protocol steps A1–A3, with the corrected success-probability bound. It uses Phi-plus as the ideal state, a convention related to the paper’s by local changes of basis (rotations of individual qubits). Its explicit three-choice twirl is an equivalent averaging construction for the states encountered here, not a verbatim implementation of the paper’s corrected rotation list.</p>
+        <div class="bbpssw-callout">
+          <p><strong>In short:</strong> BBPSSW sacrifices some noisy entangled pairs to improve the ones retained. This project makes the assumptions explicit and has Lean check the mathematics of that trade-off for one complete round.</p>
+        </div>
+      </section>
+    </article>
   </main>
 
   <footer class="site-footer">

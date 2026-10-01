@@ -56,7 +56,7 @@ class Page(HTMLParser):
 class SiteChecks(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.pages = {name: Page(ROOT / name) for name in PAGES}
+        cls.pages = {path.name: Page(path) for path in ROOT.glob('*.html')}
 
     def test_navigation_and_document_structure(self):
         for name, page in self.pages.items():
@@ -66,7 +66,8 @@ class SiteChecks(unittest.TestCase):
                 self.assertEqual(len(page.ids), len(set(page.ids)), 'Duplicate IDs')
                 self.assertEqual([a['href'] for a in page.nav], PAGES)
                 self.assertEqual([a['label'].strip() for a in page.nav], LABELS)
-                self.assertEqual([a['href'] for a in page.nav if a['current'] == 'page'], [name])
+                self.assertEqual([a['href'] for a in page.nav if a['current'] == 'page'],
+                                 [name] if name in PAGES else [])
                 self.assertIn('#main', page.links)
 
     def test_local_links_and_fragments(self):
@@ -131,6 +132,26 @@ class SiteChecks(unittest.TestCase):
         self.assertIn('animation-play-state: paused', css)
         for name in PAGES[1:]:
             self.assertNotIn('campus-breeze', (ROOT / name).read_text())
+
+    def test_autumn_artwork_and_description(self):
+        campus = ET.parse(ROOT / 'assets/stata-center.svg').getroot()
+        text = ' '.join(campus.itertext()).lower()
+        self.assertIn('autumn', text)
+        self.assertIn('fallen leaves', text)
+        fills = {element.get('fill') for element in campus.iter()}
+        for color in ['#e3ae45', '#d88035', '#b84f36', '#783b38']:
+            self.assertIn(color, fills)
+        image = self.pages['index.html'].images[0]
+        self.assertIn('Autumn', image['alt'])
+
+    def test_bbpssw_guide_sections_and_sources(self):
+        guide = self.pages['lean-bbpssw.html']
+        for section in ['introduction', 'building-blocks', 'protocol', 'worked-example',
+                        'equations', 'lean-proof', 'limitations', 'explore-code', 'references']:
+            self.assertIn(section, guide.ids)
+        self.assertIn('https://doi.org/10.1103/PhysRevLett.76.722', guide.links)
+        self.assertIn('https://doi.org/10.1103/PhysRevLett.78.2031', guide.links)
+        self.assertIn('https://github.com/hilarlia/portfolio/tree/main/bbpssw-lean', guide.links)
 
     def test_no_legacy_root_site_copies(self):
         for name in [*PAGES, 'style.css', 'assets', '.nojekyll']:

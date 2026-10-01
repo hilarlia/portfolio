@@ -9,7 +9,7 @@
 
 The artwork was drawn programmatically for this portfolio. It is an **illustrated interpretation**, not a photograph, a measured architectural rendering, or the work of the reference site's illustrator. SVG scalability alone does not imply photographic detail.
 
-The drawing uses tilted brick and silver façades, projecting windows, a yellow curved volume, blue foliage, ink outlines, and a red steel interpretation of *Aesop's Fables, II*. The composition and spatial relationships are simplified for a wide banner.
+The drawing uses tilted brick and silver façades, projecting windows, a yellow curved volume, golden and rust-red autumn foliage, an ochre lawn scattered with fallen leaves, ink outlines, and a red steel interpretation of *Aesop's Fables, II*. The composition and spatial relationships are simplified for a wide banner.
 
 ### References consulted
 
@@ -31,7 +31,7 @@ This regenerates the vectors, not the PNG snapshot. After changing the panorama,
 
 For a more natural, professionally illustrated result, the banner can be replaced with commissioned or externally generated artwork. This session did not have an image-generation model available. A useful art brief is:
 
-> Wide 8:3 editorial campus illustration, 6144 × 2304. View across MIT's Hockfield Court toward the Stata Center: identifiable tilted stainless-steel façades, warm brick towers, projecting windows, and the yellow curved form. Accurately reference Mark di Suvero's Aesop's Fables, II: red steel I-beams, crossed supports, and twisting circular steel elements on the lawn. Crisp dark ink outlines, flat periwinkle and cobalt foliage, warm ochre and cream architecture, orange accents, restrained print grain. Students reading and walking, an asymmetrical framing tree, and a few small quantum-information diagrams in the sky. Architecture and sculpture fully visible. No lettering, logos, watermark, photographic effects, or text overlay.
+> Wide 8:3 editorial campus illustration, 6144 × 2304. View across MIT's Hockfield Court toward the Stata Center: identifiable tilted stainless-steel façades, warm brick towers, projecting windows, and the yellow curved form. Accurately reference Mark di Suvero's Aesop's Fables, II: red steel I-beams, crossed supports, and twisting circular steel elements on the lawn. Crisp dark ink outlines, flat gold, amber, rust-red, and burgundy autumn foliage, fallen leaves on an ochre lawn, a pale warm sky, cool silver and warm brick architecture, restrained print grain. Students reading and walking, an asymmetrical framing tree, and a few small quantum-information diagrams in the sky. Architecture and sculpture fully visible. No lettering, logos, watermark, photographic effects, or text overlay.
 
 Use the real location photographs as references, review architectural and sculpture accuracy, and confirm that you have permission to publish the replacement asset. Update the `<img>` source, dimensions, image links, and credit in `index.html` if the file format changes.
 

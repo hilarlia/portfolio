@@ -94,7 +94,7 @@ See [docs/assets/README.md](docs/assets/README.md) for illustration limitations,
 
 ### Campus breeze animation
 
-Five small leaves drift and turn across the home-page illustration on staggered 22–31 second loops. They are a separate, decorative SVG layer in `docs/index.html`, animated by CSS in `docs/style.css`. The buildings, sculpture, original SVG/PNG downloads, and easter egg are unchanged.
+Five small leaves drift and turn across the home-page illustration on staggered 22–31 second loops. They are a separate, decorative SVG layer in `docs/index.html`, animated by CSS in `docs/style.css`. The static SVG and matching PNG depict autumn with gold, amber, and rust-red foliage and fallen leaves. The animation adds motion without changing the buildings, sculpture, or quantum motifs.
 
 - Check **Pause breeze** to freeze the leaves; uncheck it to resume. The control also works with Tab and Space, with no JavaScript required.
 - On phones, the control sits below the picture so it does not obscure the scene.

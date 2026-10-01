@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild the original SVG artwork (Python standard library only).
+"""Rebuild the autumn campus SVG and spot artwork (Python standard library only).
 
 This is an illustrated interpretation, not a measured architectural elevation.
 Photo references and artwork notes are documented in docs/assets/README.md.
@@ -15,6 +15,10 @@ MID = "#5978c3"
 LIGHT = "#91a8dd"
 DARK = "#203946"
 ORANGE = "#ff8b20"
+GOLD = "#e3ae45"
+AMBER = "#d88035"
+RUST = "#b84f36"
+BURGUNDY = "#783b38"
 parts = []
 
 
@@ -72,6 +76,13 @@ def tree(x, y, scale=1, color=MID):
     end()
 
 
+def autumn_leaf(x, y, scale=1, angle=0, color=GOLD):
+    group(f'translate({x} {y}) rotate({angle}) scale({scale})')
+    path('M-12 0Q-5 -11 13 -5Q9 9 -3 7Q-9 6 -12 0Z', color, width=1)
+    path('M-16 4L8 -3 M-3 0L-4 -5 M2 -1L5 3', width=.7)
+    end()
+
+
 def person(x, y, scale=1, shirt=ORANGE, pose="walk"):
     group(f'translate({x} {y}) scale({scale})')
     if pose == 'sit':
@@ -106,9 +117,9 @@ def save(name):
 
 
 def campus():
-    start(6144, 2304, 'Stata Center and Hockfield Court — an illustrated interpretation',
-          'A panoramic ink-and-color drawing of the tilted brick and metallic forms of MIT’s Stata Center, '
-          'with a blue lawn, students, trees, quantum diagrams, and a red steel interpretation of Mark di Suvero’s Aesop’s Fables, II.',
+    start(6144, 2304, 'Autumn at Stata Center and Hockfield Court — an illustrated interpretation',
+          'A panoramic ink-and-color drawing of MIT’s Stata Center in autumn, with golden, amber, and rust-red trees, '
+          'fallen leaves on an ochre lawn, students, quantum diagrams, and a red steel interpretation of Mark di Suvero’s Aesop’s Fables, II.',
           '0 0 2560 960')
     add('''<defs>
       <pattern id="brick" width="28" height="12" patternUnits="userSpaceOnUse">
@@ -126,9 +137,9 @@ def campus():
       </marker>
     </defs>''')
     group(extra='stroke-linejoin="round" stroke-linecap="round"')
-    rect(0, 0, 2560, 960, '#b0c0e5', stroke='none')
+    rect(0, 0, 2560, 960, '#e8d9c2', stroke='none')
     # Thin drifting clouds leave the architecture clear.
-    path('M280 248 Q350 229 414 244 M900 64 Q986 45 1060 67 M1930 322 Q2044 297 2155 313', stroke='#cfdbf0', width=2)
+    path('M280 248 Q350 229 414 244 M900 64 Q986 45 1060 67 M1930 322 Q2044 297 2155 313', stroke='#fff1d9', width=2)
 
     # Small quantum-information motifs, arranged in the open sky.
     group('translate(645 83) rotate(-4)')
@@ -252,15 +263,21 @@ def campus():
     for y in range(677,724,8):
         path(f'M{1285-(y-677)*1.1} {y}L{1641+(y-677)*.55} {y-4}', stroke='#897c74', width=1)
     path('M1280 689L1232 724 M1639 686L1660 713', stroke=INK, width=2)
-    # Lawn and gently converging walking paths, not a green gradient.
-    path('M0 704 Q353 676 607 704 T1165 716 Q1684 698 1974 696 T2560 711 L2560 960H0Z', '#809bd7')
+    # Dry autumn lawn and gently converging walking paths.
+    path('M0 704 Q353 676 607 704 T1165 716 Q1684 698 1974 696 T2560 711 L2560 960H0Z', '#bba16b')
     path('M0 725 Q421 704 805 732 T1520 730 Q2130 703 2560 740L2560 760 Q2041 733 1560 749T746 749Q342 723 0 744Z', '#cdd0ca', width=1)
     path('M1261 728L1302 729 876 960H665Z', '#d4d1c7', width=1)
     path('M1568 735L1605 733 2396 960H2198Z', '#d4d1c7', width=1)
-    # Blue trees at the terrace, open enough to keep the facades legible.
-    for x,y,s,c in [(256,702,.92,MID),(372,713,.68,BLUE),(563,703,.62,LIGHT),(708,716,.58,MID),
-                    (930,714,.52,BLUE),(1123,718,.5,MID),(1768,711,.72,MID),(1927,709,.75,BLUE),
-                    (2065,715,.94,LIGHT),(2277,716,1.02,MID),(2440,731,1.16,BLUE)]:
+    # Fallen leaves remain visible even when the decorative animation is disabled.
+    leaves = random.Random(23)
+    for _ in range(85):
+        autumn_leaf(leaves.randint(180, 2500), leaves.randint(720, 952),
+                    leaves.uniform(.28, .65), leaves.randint(-180, 180),
+                    leaves.choice([GOLD, AMBER, RUST, BURGUNDY]))
+    # Autumn trees at the terrace, open enough to keep the facades legible.
+    for x,y,s,c in [(256,702,.92,AMBER),(372,713,.68,RUST),(563,703,.62,GOLD),(708,716,.58,AMBER),
+                    (930,714,.52,RUST),(1123,718,.5,GOLD),(1768,711,.72,AMBER),(1927,709,.75,RUST),
+                    (2065,715,.94,GOLD),(2277,716,1.02,AMBER),(2440,731,1.16,RUST)]:
         tree(x,y,s,c)
     # Benches and characteristic inverted-cone lamps.
     for x,y in [(420,722),(695,730),(2038,731),(2240,741)]:
@@ -274,7 +291,7 @@ def campus():
 
     # Aesop’s Fables, II: red I-beams, crossed supports and a twisting ring.
     group('translate(1340 650) scale(.86)')
-    path('M-66 181Q112 159 351 183L456 215 142 231 -91 200Z', '#5d7dbc', stroke='none')
+    path('M-66 181Q112 159 351 183L456 215 142 231 -91 200Z', '#998358', stroke='none')
     poly('273,17 293,17 393,190 373,194', '#9c3543')
     poly('373,194 393,190 400,192 380,198', '#682d40', width=1)
     poly('-22,180 1,186 115,8 96,2', '#c74648')
@@ -314,24 +331,27 @@ def campus():
         x,y = rng.randint(100,2490),rng.randint(756,950)
         if 1210 < x < 1710 and y < 850:
             continue
-        path(f'M{x} {y}l3 -5m1 5 4 -3', stroke='#476cb0', width=.7)
+        path(f'M{x} {y}l3 -5m1 5 4 -3', stroke='#8c774d', width=.7)
 
-    # Dark framing tree, asymmetric organic foliage and fine bark lines.
-    path('M0 0H499Q530 40 500 66T399 103Q341 159 274 148Q225 202 125 171Q49 206 0 167Z', '#244c8d')
-    path('M0 191Q47 142 126 171Q163 208 123 247Q70 272 0 253Z', '#395b76')
-    path('M0 105Q78 61 144 89Q193 108 170 163Q110 196 51 180L0 192Z', DARK)
+    # Autumn framing tree, asymmetric organic foliage and fine bark lines.
+    path('M0 0H499Q530 40 500 66T399 103Q341 159 274 148Q225 202 125 171Q49 206 0 167Z', RUST)
+    path('M0 191Q47 142 126 171Q163 208 123 247Q70 272 0 253Z', GOLD)
+    path('M0 105Q78 61 144 89Q193 108 170 163Q110 196 51 180L0 192Z', BURGUNDY)
     path('M39 792Q112 677 99 457L123 220 90 163 73 72 90 66 128 142 154 41 171 39 159 175 199 127 253 92 260 105 202 161 162 236 151 433Q154 678 116 809Z', '#142830')
     path('M140 328Q203 239 295 218L313 229Q211 267 151 383Z', '#142830')
-    path('M262 217Q316 189 351 221Q408 191 438 224Q477 249 444 278Q419 300 373 286Q313 315 284 279Q236 279 243 243Z', MID)
+    path('M262 217Q316 189 351 221Q408 191 438 224Q477 249 444 278Q419 300 373 286Q313 315 284 279Q236 279 243 243Z', AMBER)
+    for x, y, angle, color in [(471, 166, 35, GOLD), (211, 327, -45, RUST),
+                               (380, 379, 70, AMBER), (2337, 555, -20, GOLD)]:
+        autumn_leaf(x, y, .8, angle, color)
     for i in range(15):
         x=70+i*5
         path(f'M{x} 759Q{x+31} 626 {x+22} 458', stroke='#35536c', width=.9)
     # Lower foreground foliage gives the drawing a full-bleed, editorial frame.
-    path('M0 844Q109 806 193 849Q244 841 292 875Q375 875 413 921Q598 909 749 960H0Z', DARK)
-    path('M2222 960Q2258 892 2327 908Q2335 853 2411 866Q2463 811 2560 838V960Z', '#244b93')
+    path('M0 844Q109 806 193 849Q244 841 292 875Q375 875 413 921Q598 909 749 960H0Z', BURGUNDY)
+    path('M2222 960Q2258 892 2327 908Q2335 853 2411 866Q2463 811 2560 838V960Z', RUST)
     path('M2440 960L2434 882 M2436 930L2380 904 M2437 920L2491 870 M2436 910L2410 871 M2438 949L2530 910', stroke=INK, width=3)
     for x,y in [(91,939),(171,960),(226,942)]:
-        path(f'M{x} {y}q-30 -87 -74 -93q25 59 74 93q-7 -78 25 -120q14 78 -25 120Z', '#254f68')
+        path(f'M{x} {y}q-30 -87 -74 -93q25 59 74 93q-7 -78 25 -120q14 78 -25 120Z', AMBER)
         path(f'M{x} {y}l-51 -69 M{x} {y}l19 -91', stroke=INK, width=1)
     end()
     # Subtle print grain; all architecture and outlines above remain vectors.
