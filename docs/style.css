@@ -37,7 +37,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #b3472a;
+  background: #ffffff;
   color: var(--ink);
   font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
@@ -157,7 +157,7 @@ img { max-width: 100%; }
   --delay: -18s;
   --drift-x: 520px;
   --drift-y: 520px;
-  color: #e6a367;
+  color: #cc4a39;
 }
 .breeze-leaf--three {
   --flight: 22s;
@@ -171,13 +171,14 @@ img { max-width: 100%; }
   --delay: -3s;
   --drift-x: 390px;
   --drift-y: 340px;
-  color: #e6a367;
+  color: #a65b2f;
 }
 .breeze-leaf--five {
   --flight: 31s;
   --delay: -23s;
   --drift-x: 235px;
   --drift-y: 410px;
+  color: #b3472a;
 }
 @keyframes leaf-drift {
   0% { transform: translate(0, 0); opacity: 0; }
