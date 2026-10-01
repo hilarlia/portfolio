@@ -50,22 +50,23 @@ def end():
     add('</g>')
 
 
-def window(x, y, w=30, h=43, tilt=0):
+def window(x, y, w=30, h=43, tilt=0, lit=False):
     group(f'translate({x} {y}) skewY({tilt})')
     poly(f'0,0 {w},0 {w+6},5 6,5', '#fcf1d9', width=1)
     poly(f'{w},0 {w+6},5 {w+6},{h+5} {w},{h}', '#536682', width=1)
     rect(0, 0, w, h, '#e9e4d9', width=1.1)
-    rect(4, 4, w-8, h-8, '#203c59', width=.7)
-    path(f'M{w/2} 4 V{h-4}', stroke='#c6daf1', width=1.7)
-    path(f'M5 5 H{w-5} V{h/2}', stroke='#527cb3', width=1)
+    rect(4, 4, w-8, h-8, '#ffe083' if lit else '#203c59', width=.7)
+    path(f'M{w/2} 4 V{h-4}', stroke='#fff3bb' if lit else '#c6daf1', width=1.7)
+    path(f'M5 5 H{w-5} V{h/2}', stroke='#fff3bb' if lit else '#527cb3', width=1)
     path(f'M-2 {h+2} H{w+4}', stroke=INK, width=1.8)
     end()
 
 
-def windows(x, y, cols, rows, dx, dy, w=28, h=39, tilt=0):
+def windows(x, y, cols, rows, dx, dy, w=28, h=39, tilt=0, lit_windows=()):
+    """Draw a grid; lit_windows contains zero-based (row, column) positions."""
     for row in range(rows):
         for col in range(cols):
-            window(x+col*dx, y+row*dy, w, h, tilt)
+            window(x+col*dx, y+row*dy, w, h, tilt, lit=(row, col) in lit_windows)
 
 
 def tree(x, y, scale=1, color=MID):
@@ -186,7 +187,7 @@ def campus():
     poly('0,0 204,0 211,331 0,341', '#e6a367')
     poly('204,0 244,23 250,323 211,331', '#ba6d3b')
     poly('0,0 204,0 211,331 0,341', 'url(#brick)', stroke='none')
-    windows(24,42,3,4,58,70,29,43)
+    windows(24,42,3,4,58,70,29,43,lit_windows=((2, 0),))
     end()
     # Silver cylindrical volume with visible panel seams and projecting windows.
     path('M536 366 C571 341 629 342 659 369 L680 650 Q605 679 538 652Z', '#c5d1df')

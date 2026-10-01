@@ -136,9 +136,9 @@
 <polygon points="0,0 29,0 35,5 6,5" fill="#fcf1d9" stroke="#182332" stroke-width="1" />
 <polygon points="29,0 35,5 35,48 29,43" fill="#536682" stroke="#182332" stroke-width="1" />
 <rect x="0" y="0" width="29" height="43" fill="#e9e4d9" stroke="#182332" stroke-width="1.1" />
-<rect x="4" y="4" width="21" height="35" fill="#203c59" stroke="#182332" stroke-width="0.7" />
-<path d="M14.5 4 V39" fill="none" stroke="#c6daf1" stroke-width="1.7" />
-<path d="M5 5 H24 V21.5" fill="none" stroke="#527cb3" stroke-width="1" />
+<rect x="4" y="4" width="21" height="35" fill="#ffe083" stroke="#182332" stroke-width="0.7" />
+<path d="M14.5 4 V39" fill="none" stroke="#fff3bb" stroke-width="1.7" />
+<path d="M5 5 H24 V21.5" fill="none" stroke="#fff3bb" stroke-width="1" />
 <path d="M-2 45 H33" fill="none" stroke="#182332" stroke-width="1.8" />
 </g>
 <g transform="translate(82 182) skewY(0)" >
