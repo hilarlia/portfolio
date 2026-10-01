@@ -24,9 +24,10 @@
 :root {
   --blue: #1c3ed3;
   --ink: #212529;
-  --muted: #626674;
-  --footer: #414156;
+  --muted: #625674;
+  --footer: #413e3f;
   --rule: #e3e5ec;
+  --accent: #e74c3c;
 }
 
 * { box-sizing: border-box; }
@@ -36,7 +37,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: #b3472a;
   color: var(--ink);
   font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
