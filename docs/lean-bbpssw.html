@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BBPSSW entanglement purification in Lean, with verified theorems and a minimal, auditable proof.">
+  <title>Ufuk Keskin | Reproducing a Paper Result with Lean</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-title" href="index.html">Ufuk Keskin</a>
+      <nav aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="index.html">About Me</a></li>
+          <li><a href="project.html">My Project</a></li>
+          <li><a href="sofar.html">So Far</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="deck-main container">
+    <div class="deck-container">
+      <header class="deck-header">
+        <h1>BBPSSW entanglement purification in Lean</h1>
+        <p class="lead">Lean code and verification of the BBPSSW protocol</p>
+        <p><a href="project.html">← Back to My Project</a></p>
+      </header>
+
+      <article class="deck-prose talk-block">
+        <section aria-labelledby="bbpssw-explained">
+          <h2 id="bbpssw-explained">BBPSSW in plain terms</h2>
+          <p>BBPSSW stands for Bennett–Brassard–Popescu–Schumacher–Smolin–Wootters, a quantum-information protocol designed to improve the quality of entanglement shared between two remote parties. In practice, two noisy entangled pairs (qubits connected across space) are processed with local operations and simple classical communication to produce fewer pairs with higher fidelity to a perfect entangled state. The BBPSSW protocol is a concrete recipe for such purification, using measurements and local gates to distill better entanglement. In this Lean project, we model a single round of that protocol on two Werner states and verify (auditable, machine-checked) properties about the fidelity improvement. The narrative here is aimed at a non-specialist audience (AeroAstro), so we emphasize intuition and practical meaning rather than the algebraic details.</p>
+        </section>
+
+        <h2>Scope</h2>
+        <p>
+          The project encodes a complete, verified Lean formalization of a single round of the BBPSSW entanglement purification protocol for two Werner pairs. The formalization includes local operations, Bell projectors, a finite twirl, and a proof that the fidelity improves within the trusted range (1/2 < F < 1).
+        </p>
+        <p>
+          The Lean code lives in the bbpssw-lean directory. The repository ships with a ready-to-run verification workflow and a published audit routine to ensure there are no hidden axioms beyond the usual propositional logic foundations.
+        </p>
+
+        
+
+        
+
+        <h2>Paper and precise scope</h2>
+        <p>
+          The BBPSSW Lean project follows the same target as the Physical Review Letters BBPSSW paper but remains focused on a single round and a finite twirl. The main theorems track fidelity improvement and the positive probability of successful purification within the given fidelity window.
+        </p>
+
+        <h2>Mathematical definitions (Lean perspective)</h2>
+        <p>
+          The formalization uses a small collection of primitives: Bell projectors, Werner states, twirl operators, and the BBPSSW recurrence rules. See the bbpssw-lean directory for the exact Lean modules (BBPSSW, Recurrence, Protocol, Twirl, Main, and Audit).
+        </p>
+        <p>
+          A typical development note is that a state is encoded as a density-like object, and the theorems are proved using Lean’s typeclass and algebraic infrastructure. The code mirrors the paper’s structure while staying explicit about assumptions and verifications.
+        </p>
+
+        <h2>File guide</h2>
+        <ul>
+          <li>BBPSSW/Basic.lean — Exact complex matrices, Bell projectors, positivity, trace, fidelity</li>
+          <li>BBPSSW/Recurrence.lean — Rational recurrence, denominator positivity, success bound, strict gain</li>
+          <li>BBPSSW/Protocol.lean — Local CNOT, measurement branches, accepted state, normalization</li>
+          <li>BBPSSW/Twirl.lean — Local Clifford averaging and complete state-level recurrence</li>
+          <li>BBPSSW/Main.lean — Main physical correctness theorem</li>
+          <li>Audit.lean — Transitive axiom whitelist audit and printed main theorem</li>
+        </ul>
+        <p>
+          The exact example F = 3/4 is included as example_three_quarters in the verification suite, confirming the computed probabilities and fidelity updates.
+        </p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <span>16.S893 · AI for Engineering Research</span>
+        <a href="mailto:ufukkesk@mit.edu">Email</a>
+        <a href="https://github.com/hilarlia">GitHub</a>
+      </div>
+      <p>© 2026 Ufuk Keskin</p>
+    </div>
+  </footer>
+</body>
+</html>
