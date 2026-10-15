@@ -594,14 +594,14 @@ pre {
 }
 
 .devlog-nav-list a:hover {
-  color: var(--blue);
-  border-left-color: var(--blue);
+  color: #cc4a39;
+  border-left-color: #cc4a39;
 }
 
 .devlog-nav-list a:active,
 .devlog-nav-list a[href*="#entry-"]:target {
-  color: var(--blue);
-  border-left-color: var(--blue);
+  color: #cc4a39;
+  border-left-color: #cc4a39;
   font-weight: 700;
 }
 
@@ -617,7 +617,7 @@ pre {
   font-size: 3.5rem;
   font-weight: 400;
   line-height: 1.2;
-  color: var(--blue);
+  color: #cc4a39;
   margin: 0 0 16px;
 }
 
@@ -678,7 +678,7 @@ pre {
 .devlog-entry h3 {
   font-size: 1.8rem;
   font-weight: 400;
-  color: var(--blue);
+  color: #cc4a39;
   margin: 0 0 20px;
   line-height: 1.3;
 }
@@ -725,12 +725,12 @@ pre {
 .tag {
   display: inline-block;
   padding: 8px 16px;
-  background: #f1f3f9;
-  color: var(--blue);
+  background: #fdf5f1;
+  color: #cc4a39;
   border-radius: 20px;
   font-size: 0.95rem;
   font-weight: 500;
-  border: 1px solid #e3e5ec;
+  border: 1px solid #f0d9d0;
 }
 
 /* Mobile responsiveness */
