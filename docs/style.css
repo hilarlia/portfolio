@@ -1,4 +1,4 @@
-/* Autumn Red Color Update - Oct 15 2024 */
+/* Autumn red is the portfolio-wide primary accent. */
 /* Source Sans Pro is hosted locally so previews also work offline. */
 @font-face {
   font-family: "Source Sans Pro";
@@ -23,7 +23,7 @@
 }
 
 :root {
-  --blue: #1c3ed3;
+  --blue: #cc4a39;
   --ink: #212529;
   --muted: #625674;
   --footer: #413e3f;
