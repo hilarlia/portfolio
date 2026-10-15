@@ -543,3 +543,301 @@ pre {
   .deck-prose { font-size: 1rem; }
   .deck-prose h2 { font-size: 1.35rem; }
 }
+
+/* Dev-Log Style Layout */
+.devlog-main {
+  background: #ffffff;
+  padding: 60px 0;
+}
+
+.devlog-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 80px;
+  max-width: 1400px;
+}
+
+.devlog-sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.devlog-nav h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.devlog-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.devlog-nav-list li {
+  margin: 0;
+}
+
+.devlog-nav-list a {
+  display: block;
+  padding: 12px 0;
+  font-size: 1.05rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  padding-left: 16px;
+  transition: all 0.2s ease;
+}
+
+.devlog-nav-list a:hover {
+  color: var(--blue);
+  border-left-color: var(--blue);
+}
+
+.devlog-nav-list a:active,
+.devlog-nav-list a[href*="#entry-"]:target {
+  color: var(--blue);
+  border-left-color: var(--blue);
+  font-weight: 700;
+}
+
+.devlog-content {
+  min-width: 0;
+}
+
+.devlog-header {
+  margin-bottom: 60px;
+}
+
+.devlog-header h1 {
+  font-size: 3.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--blue);
+  margin: 0 0 16px;
+}
+
+.devlog-subtitle {
+  font-size: 1.5rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+  font-weight: 400;
+}
+
+.devlog-description {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.devlog-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.devlog-entry {
+  position: relative;
+  scroll-margin-top: 120px;
+}
+
+.devlog-entry-header {
+  margin-bottom: 24px;
+}
+
+.devlog-entry-title {
+  font-size: 2.8rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.devlog-entry-date {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin: 0;
+  font-weight: 500;
+}
+
+.devlog-entry-number {
+  position: absolute;
+  right: -100px;
+  top: 0;
+  font-size: 3.5rem;
+  font-weight: 400;
+  color: #f0f0f0;
+  opacity: 0.8;
+}
+
+.devlog-entry h3 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--blue);
+  margin: 0 0 20px;
+  line-height: 1.3;
+}
+
+.devlog-entry p {
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.devlog-entry p:last-child {
+  margin-bottom: 0;
+}
+
+.devlog-note {
+  margin-top: 80px;
+  padding-top: 60px;
+  border-top: 1px solid var(--rule);
+}
+
+.devlog-note h2 {
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.devlog-note p {
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Tags styling */
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0 0 !important;
+}
+
+.tag {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #f1f3f9;
+  color: var(--blue);
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid #e3e5ec;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 1100px) {
+  .devlog-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .devlog-sidebar {
+    position: relative;
+    top: auto;
+  }
+
+  .devlog-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 40px;
+  }
+
+  .devlog-nav h2 {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .devlog-entry-number {
+    position: relative;
+    right: auto;
+    top: auto;
+    font-size: 2rem;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .devlog-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .devlog-entry-title {
+    font-size: 1.8rem;
+  }
+
+  .devlog-entry h3 {
+    font-size: 1.4rem;
+  }
+
+  .devlog-entry p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .devlog-main {
+    padding: 40px 0;
+  }
+
+  .devlog-container {
+    gap: 30px;
+  }
+
+  .container {
+    width: calc(100% - 32px);
+  }
+
+  .devlog-nav-list a {
+    padding: 10px 0 10px 12px;
+    font-size: 0.95rem;
+  }
+
+  .devlog-header h1 {
+    font-size: 2rem;
+  }
+
+  .devlog-header h1 {
+    margin-bottom: 12px;
+  }
+
+  .devlog-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .devlog-entry-title {
+    font-size: 1.5rem;
+  }
+
+  .devlog-entry h3 {
+    font-size: 1.2rem;
+  }
+
+  .devlog-entry p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .entry-tags {
+    gap: 8px;
+  }
+
+  .tag {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  .devlog-entries {
+    gap: 50px;
+  }
+}
