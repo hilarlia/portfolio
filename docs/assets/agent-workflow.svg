@@ -44,10 +44,10 @@
     <path d="M1092 436 L1102 445 L1092 454"/>
     <path d="M1404 445 C1424 442 1436 442 1452 445"/>
     <path d="M1442 436 L1452 445 L1442 454"/>
-    <path d="M1605 604 C1600 668 1484 700 1360 755"/>
+    <path d="M1605 575 C1600 654 1484 700 1360 755"/>
     <path d="M1372 742 L1360 755 L1378 755"/>
-    <path d="M1080 865 C1034 865 1002 865 958 865"/>
-    <path d="M970 857 L958 865 L970 873"/>
+    <path d="M1080 865 C1010 865 940 865 870 865"/>
+    <path d="M882 857 L870 865 L882 873"/>
   </g>
   <!-- Dashed connector is intentionally cross-run: advisory feedback returns to Researcher. -->
   <g fill="none" stroke="#6C5B7B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="11 10">
@@ -103,9 +103,6 @@
 
   <!-- Trusted controller checks and builds. -->
   <g>
-    <rect class="card" x="1110" y="300" width="294" height="304" rx="23" fill="#DCE8E9"/>
-    <circle cx="1146" cy="337" r="20" fill="#264653" stroke="#263238" stroke-width="2"/>
-    <text class="num" x="1146" y="337">4</text>
     <path d="M1324 319 L1349 328 L1346 350 Q1342 366 1324 375 Q1306 366 1302 350 L1299 328 Z" class="lineIcon"/>
     <path d="M1312 346 L1321 355 L1338 337" class="lineIcon"/>
     <text class="cardTitle" x="1134" y="402">Controller checks</text>
@@ -118,9 +115,6 @@
 
   <!-- Published version: this happens before Correcter is invoked. -->
   <g>
-    <rect class="card" x="1460" y="300" width="294" height="304" rx="23" fill="#F6E4B6"/>
-    <circle cx="1496" cy="337" r="20" fill="#E9C46A" stroke="#263238" stroke-width="2"/>
-    <text class="num" x="1496" y="337">5</text>
     <path d="M1696 322 L1720 322 L1732 334 L1732 371 L1696 371 Z" class="lineIcon"/>
     <path d="M1720 322 L1720 335 L1732 335 M1704 345 L1724 345 M1704 355 L1724 355" class="lineIcon"/>
     <text class="cardTitle" x="1484" y="402">Published Vₙ</text>
@@ -144,7 +138,6 @@
     <text class="loopBody" x="1112" y="937">If it fails, Vₙ stays published</text>
   </g>
   <g>
-    <rect class="card" x="470" y="755" width="488" height="218" rx="24" fill="#F4E5BB"/>
     <path d="M510 786 L540 786 Q546 786 546 792 L546 816 Q546 822 540 822 L510 822 Q504 822 504 816 L504 792 Q504 786 510 786 Z" fill="#FFFFFF" stroke="#263238" stroke-width="2.5"/>
     <path d="M505 790 L525 806 L545 790" fill="none" stroke="#263238" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <text class="loopTitle" x="564" y="804">Notes for the next run</text>
@@ -159,6 +152,6 @@
   <text class="legend" x="194" y="1047">steps in this run</text>
   <path d="M500 1040 C534 1038 574 1042 610 1040" fill="none" stroke="#6C5B7B" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
   <path d="M598 1032 L610 1040 L598 1048" fill="none" stroke="#6C5B7B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="legend" x="630" y="1047">notes for a later run</text>
+  <text class="legend" x="630" y="1047">steps followed in the next run</text>
   <text class="legend" x="60" y="1100">The review comes after publication, so it can’t hold up the version that’s already finished.</text>
 </svg>
