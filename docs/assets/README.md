@@ -1,5 +1,9 @@
 # Artwork and fonts
 
+## Workflow diagram
+
+- `agent-workflow.svg`: an original, responsive diagram of Scout → Researcher → Writer → controller validation/build/publication, followed by read-only Correcter feedback into the next run. It uses the portfolio's hand-inked outlines, simple flat fills, and warm editorial palette; it does not reuse or trace the reference illustrator's artwork. The project page embeds this file directly.
+
 ## Campus panorama
 
 - `stata-center.svg`: the site's banner, a resolution-independent vector drawing with a 6144 × 2304 intrinsic size (8:3 ratio).
