@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "provider": "example-provider",
+  "roles": {
+    "A-Scout": {
+      "model": "example-provider/openai/example-reviewer",
+      "thinking": "high",
+      "max_output_tokens": 12000
+    },
+    "A-Researcher": {
+      "model": "example-provider/openai/example-reviewer",
+      "thinking": "high",
+      "max_output_tokens": 30000
+    },
+    "A-Writer": {
+      "model": "example-provider/openai/example-writer",
+      "thinking": "high",
+      "max_output_tokens": 20000
+    },
+    "A-Correcter": {
+      "model": "example-provider/openai/example-reviewer",
+      "thinking": "high",
+      "max_output_tokens": 8000
+    }
+  },
+  "standalone_roles": {},
+  "limits": {
+    "stage_timeout_sec": 1800,
+    "preflight_timeout_sec": 90,
+    "build_timeout_sec": 300,
+    "max_stream_bytes": 33554432,
+    "max_artifact_bytes": 131072,
+    "max_scout_retries": 1,
+    "max_ideas": 10,
+    "max_papers": 5,
+    "max_paper_bytes": 15728640,
+    "max_total_download_bytes": 157286400,
+    "max_total_input_tokens": 200000000,
+    "max_total_output_tokens": 500000,
+    "max_cost_usd": 6.0,
+    "max_resume_extra_cost_usd": 10.0
+  },
+  "paths": {
+    "paper": "Paper",
+    "main_tex": "Paper/Work-In-Progress/main.tex",
+    "outputs": "Agent-Outputs",
+    "versions": "AI-Versions",
+    "writing_skill": "skills/skills-paper_writing.md",
+    "citation_skill": "skills/skills-paper_citation.md",
+    "citation_preferences": "skills/citation-preferences.example.json",
+    "nono_launcher": "paper_workflow/nono_launcher.py"
+  },
+  "writer_files": [
+    "Work-In-Progress/main.tex",
+    "Work-In-Progress/LatexInclusion/Local-Introduction.tex",
+    "Work-In-Progress/LatexInclusion/Local-Definitions.tex",
+    "Work-In-Progress/LatexInclusion/Local-Temp.bib",
+    "Work-In-Progress/LatexInclusion/Local-Acronyms.tex"
+  ]
+}
