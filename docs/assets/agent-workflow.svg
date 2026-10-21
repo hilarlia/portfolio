@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1160" viewBox="0 0 1800 1160" role="img" aria-labelledby="title desc">
   <title id="title">Research workflow with a next-run feedback loop</title>
-  <desc id="desc">Within one full run, A-Scout verifies sources, A-Researcher forwards evidence-backed ideas, A-Writer integrates them, and the controller validates and builds before publishing version V n. Only after publication, read-only A-Correcter may save advisory feedback. A dashed arrow carries that feedback to the Researcher on the next full run; it cannot block the current version.</desc>
+  <desc id="desc">A diagram of how the author uses research agents: Scout checks sources, Researcher suggests changes, Writer revises a safe copy, and the controller builds before publication. Correcter reviews afterward and may leave notes for the next run, but cannot change or delay the version already published.</desc>
   <defs>
     <marker id="arrow-ink" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
       <path d="M1 1 L11 6 L1 11" fill="none" stroke="#263238" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -12,12 +12,12 @@
       .kicker { font-family: Arial, sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 2px; fill: #9E4938; }
       .heading { font-family: Arial, sans-serif; font-size: 43px; font-weight: 700; fill: #263238; }
       .subhead { font-family: Arial, sans-serif; font-size: 24px; font-weight: 400; fill: #47545A; }
-      .runlabel { font-family: Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 1.5px; fill: #264653; }
+      .inputNote { font-family: Arial, sans-serif; font-size: 22px; font-weight: 400; fill: #264653; }
       .card { stroke: #263238; stroke-width: 3; stroke-linejoin: round; }
       .num { font-family: Arial, sans-serif; font-size: 18px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; dominant-baseline: central; }
       .cardTitle { font-family: Arial, sans-serif; font-size: 31px; font-weight: 700; fill: #263238; }
       .cardBody { font-family: Arial, sans-serif; font-size: 22px; font-weight: 400; fill: #263238; }
-      .cardNote { font-family: Arial, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: .6px; fill: #263238; }
+      .cardNote { font-family: Arial, sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0; fill: #263238; }
       .loopTitle { font-family: Arial, sans-serif; font-size: 26px; font-weight: 700; fill: #263238; }
       .loopBody { font-family: Arial, sans-serif; font-size: 22px; font-weight: 400; fill: #263238; }
       .arrowLabel { font-family: Arial, sans-serif; font-size: 17px; font-weight: 700; fill: #47545A; }
@@ -29,10 +29,10 @@
   <!-- Warm paper ground and hand-inked editorial framing. -->
   <rect width="1800" height="1160" fill="#FBF6ED"/>
   <path d="M58 202 C410 196 790 207 1140 201 S1570 198 1740 204" fill="none" stroke="#D8C8AA" stroke-width="2" stroke-linecap="round"/>
-  <text class="kicker" x="62" y="68">FOUR AGENTS · ONE VERIFIED PUBLISH PATH</text>
-  <text class="heading" x="60" y="124">Research, checked before it ships</text>
-  <text class="subhead" x="62" y="166">One full run publishes a validated version. Read-only feedback informs the next run.</text>
-  <text class="runlabel" x="62" y="252">RUN n  ·  HUMAN SETS THE DIRECTION; OPTIONAL NOTES GO TO THE RESEARCHER</text>
+  <text class="kicker" x="62" y="68">MY RESEARCH WORKFLOW</text>
+  <text class="heading" x="60" y="124">How I use research agents</text>
+  <text class="subhead" x="62" y="166">I set the direction; the agents help me find sources, improve drafts, and follow up.</text>
+  <text class="inputNote" x="62" y="252">I set the research question. Optional notes go to the Researcher.</text>
 
   <!-- Connectors are behind the cards. Solid arrows stay within one run. -->
   <g fill="none" stroke="#263238" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
@@ -63,10 +63,10 @@
     <circle cx="297" cy="340" r="18" class="lineIcon"/>
     <path d="M310 353 L329 372" class="lineIcon"/>
     <text class="cardTitle" x="84" y="402">A-Scout</text>
-    <text class="cardBody" x="84" y="448">Bounded topic search</text>
-<text class="cardBody" x="84" y="480">Verifies source metadata</text>
-<text class="cardBody" x="84" y="512">and readable PDFs</text>
-<text class="cardBody" x="84" y="544">Records stable source IDs</text>
+    <text class="cardBody" x="84" y="448">Finds relevant papers</text>
+    <text class="cardBody" x="84" y="480">Checks the source details</text>
+    <text class="cardBody" x="84" y="512">Makes sure the PDFs open</text>
+    <text class="cardBody" x="84" y="544">Keeps a reading list</text>
     <path d="M84 564 C136 559 203 568 329 562" fill="none" stroke="#C39135" stroke-width="3" stroke-linecap="round"/>
   </g>
 
@@ -78,12 +78,12 @@
     <path d="M642 322 Q660 319 676 327 L676 359 Q659 352 642 360 Z M642 322 Q624 319 608 327 L608 359 Q625 352 642 360 Z" class="lineIcon"/>
     <path d="M642 323 L642 359" class="lineIcon"/>
     <text class="cardTitle" x="434" y="402">A-Researcher</text>
-    <text class="cardBody" x="434" y="448">Reads manuscript +</text>
-<text class="cardBody" x="434" y="480">verified source registry</text>
-<text class="cardBody" x="434" y="512">Forwards supported</text>
-<text class="cardBody" x="434" y="544">corrections / extensions</text>
+    <text class="cardBody" x="434" y="448">Reads the paper and</text>
+    <text class="cardBody" x="434" y="480">the checked source list</text>
+    <text class="cardBody" x="434" y="512">Suggests corrections</text>
+    <text class="cardBody" x="434" y="544">or ideas to explore</text>
     <rect x="434" y="558" width="244" height="30" rx="15" fill="#FFFFFF" stroke="#2A9D8F" stroke-width="2"/>
-    <text class="cardNote" x="556" y="579" text-anchor="middle">NO NOVELTY / SCORE GATE</text>
+    <text class="cardNote" x="556" y="579" text-anchor="middle">No novelty test</text>
   </g>
 
   <!-- A-Writer -->
@@ -94,10 +94,10 @@
     <path d="M968 352 L1000 320 Q1005 315 1010 320 L1017 327 Q1022 332 1017 337 L985 369 L964 375 Z" class="lineIcon"/>
     <path d="M968 352 L985 369 M1000 320 L1017 337" class="lineIcon"/>
     <text class="cardTitle" x="784" y="402">A-Writer</text>
-    <text class="cardBody" x="784" y="448">Integrates every</text>
-<text class="cardBody" x="784" y="480">supported item in a</text>
-<text class="cardBody" x="784" y="512">disposable snapshot</text>
-<text class="cardBody" x="784" y="544">Marks this run’s edits</text>
+    <text class="cardBody" x="784" y="448">Uses those ideas to</text>
+    <text class="cardBody" x="784" y="480">revise a safe copy</text>
+    <text class="cardBody" x="784" y="512">Marks what changed</text>
+    <text class="cardBody" x="784" y="544">in this run</text>
     <path d="M784 564 C840 559 920 568 1029 562" fill="none" stroke="#D46A4D" stroke-width="3" stroke-linecap="round"/>
   </g>
 
@@ -108,11 +108,11 @@
     <text class="num" x="1146" y="337">4</text>
     <path d="M1324 319 L1349 328 L1346 350 Q1342 366 1324 375 Q1306 366 1302 350 L1299 328 Z" class="lineIcon"/>
     <path d="M1312 346 L1321 355 L1338 337" class="lineIcon"/>
-    <text class="cardTitle" x="1134" y="402">Controller gate</text>
-    <text class="cardBody" x="1134" y="448">Schema + provenance</text>
-<text class="cardBody" x="1134" y="480">Diff, allowlist, invariants</text>
-<text class="cardBody" x="1134" y="512">Nono-isolated dual builds</text>
-<text class="cardBody" x="1134" y="544">Publish only if both pass</text>
+    <text class="cardTitle" x="1134" y="402">Controller checks</text>
+    <text class="cardBody" x="1134" y="448">Checks sources and edits</text>
+    <text class="cardBody" x="1134" y="480">and which files changed</text>
+    <text class="cardBody" x="1134" y="512">Builds both PDFs separately</text>
+    <text class="cardBody" x="1134" y="544">Publishes only if both pass</text>
     <path d="M1134 564 C1202 559 1284 568 1379 562" fill="none" stroke="#51737A" stroke-width="3" stroke-linecap="round"/>
   </g>
 
@@ -124,41 +124,41 @@
     <path d="M1696 322 L1720 322 L1732 334 L1732 371 L1696 371 Z" class="lineIcon"/>
     <path d="M1720 322 L1720 335 L1732 335 M1704 345 L1724 345 M1704 355 L1724 355" class="lineIcon"/>
     <text class="cardTitle" x="1484" y="402">Published Vₙ</text>
-    <text class="cardBody" x="1484" y="448">Version + verified PDF</text>
-<text class="cardBody" x="1484" y="480">Current run is complete</text>
-<text class="cardBody" x="1484" y="512">Correcter starts</text>
-<text class="cardBody" x="1484" y="544">only after publication</text>
+    <text class="cardBody" x="1484" y="448">The checked paper is saved</text>
+    <text class="cardBody" x="1484" y="480">as version Vₙ</text>
+    <text class="cardBody" x="1484" y="512">This run is finished</text>
+    <text class="cardBody" x="1484" y="544">before the review begins</text>
     <path d="M1484 564 C1545 559 1640 568 1729 562" fill="none" stroke="#C39135" stroke-width="3" stroke-linecap="round"/>
   </g>
 
   <!-- Cross-run feedback loop. -->
-  <text class="runlabel" x="1080" y="710">AFTER PUBLICATION · ADVISORY REVIEW</text>
+  <text class="inputNote" x="1080" y="710">After publication: a follow-up review</text>
   <g>
     <rect class="card" x="1080" y="755" width="500" height="218" rx="24" fill="#E9E2EF"/>
     <circle cx="1120" cy="798" r="22" fill="#6C5B7B" stroke="#263238" stroke-width="2"/>
     <path d="M1110 793 Q1110 785 1119 785 L1131 785 Q1140 785 1140 793 L1140 801 Q1140 809 1131 809 L1120 809 L1113 817 L1114 808 Q1110 805 1110 801 Z" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
     <text class="loopTitle" x="1156" y="804">A-Correcter</text>
-    <text class="loopBody" x="1112" y="844">Read-only; at most 3 focused searches</text>
-<text class="loopBody" x="1112" y="875">Suggests useful proof techniques / leads</text>
-<text class="loopBody" x="1112" y="906">Cannot edit or block published Vₙ</text>
-<text class="loopBody" x="1112" y="937">If unavailable, Vₙ stays complete</text>
+    <text class="loopBody" x="1112" y="844">Looks for useful leads</text>
+    <text class="loopBody" x="1112" y="875">to explore in future work</text>
+    <text class="loopBody" x="1112" y="906">It can’t edit or delay Vₙ</text>
+    <text class="loopBody" x="1112" y="937">If it fails, Vₙ stays published</text>
   </g>
   <g>
     <rect class="card" x="470" y="755" width="488" height="218" rx="24" fill="#F4E5BB"/>
     <path d="M510 786 L540 786 Q546 786 546 792 L546 816 Q546 822 540 822 L510 822 Q504 822 504 816 L504 792 Q504 786 510 786 Z" fill="#FFFFFF" stroke="#263238" stroke-width="2.5"/>
     <path d="M505 790 L525 806 L545 790" fill="none" stroke="#263238" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <text class="loopTitle" x="564" y="804">Advisory feedback</text>
-    <text class="loopBody" x="502" y="844">Saved after the current version is published</text>
-<text class="loopBody" x="502" y="875">Mounted for the next Researcher run</text>
-<text class="loopBody" x="502" y="906">Researcher investigates; use is optional</text>
+    <text class="loopTitle" x="564" y="804">Notes for the next run</text>
+    <text class="loopBody" x="502" y="844">The notes are saved for later</text>
+    <text class="loopBody" x="502" y="875">Researcher checks what’s useful</text>
+    <text class="loopBody" x="502" y="906">Not every suggestion is used</text>
   </g>
 
   <!-- Legend and color-independent explanation. -->
   <path d="M64 1040 C98 1038 138 1042 174 1040" fill="none" stroke="#263238" stroke-width="4" stroke-linecap="round"/>
   <path d="M162 1032 L174 1040 L162 1048" fill="none" stroke="#263238" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="legend" x="194" y="1047">within the same full run</text>
+  <text class="legend" x="194" y="1047">steps in this run</text>
   <path d="M500 1040 C534 1038 574 1042 610 1040" fill="none" stroke="#6C5B7B" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
   <path d="M598 1032 L610 1040 L598 1048" fill="none" stroke="#6C5B7B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="legend" x="630" y="1047">advisory feedback carried into the next run</text>
-  <text class="legend" x="60" y="1100">Solid arrows show the publishable run path. The dashed arrow never returns to or changes the already-published version.</text>
+  <text class="legend" x="630" y="1047">notes for a later run</text>
+  <text class="legend" x="60" y="1100">The review comes after publication, so it can’t hold up the version that’s already finished.</text>
 </svg>
