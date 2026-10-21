@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1160" viewBox="0 0 1800 1160" role="img" aria-labelledby="title desc">
   <title id="title">Research workflow with a next-run feedback loop</title>
-  <desc id="desc">A diagram of how the author uses research agents: Scout checks sources, Researcher suggests changes, Writer revises a safe copy, and the controller builds before publication. Correcter reviews afterward and may leave notes for the next run, but cannot change or delay the version already published.</desc>
+  <desc id="desc">A diagram of how the author uses research agents: Scout checks sources, Researcher suggests changes, Writer revises a safe copy, and the controller builds before the new version is saved. Correcter reviews afterward and may leave ideas for later, but does not change the saved version.</desc>
   <defs>
     <marker id="arrow-ink" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
       <path d="M1 1 L11 6 L1 11" fill="none" stroke="#263238" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -16,6 +16,7 @@
       .card { stroke: #263238; stroke-width: 3; stroke-linejoin: round; }
       .num { font-family: Arial, sans-serif; font-size: 18px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; dominant-baseline: central; }
       .cardTitle { font-family: Arial, sans-serif; font-size: 31px; font-weight: 700; fill: #263238; }
+      .outputTitle { font-family: Arial, sans-serif; font-size: 26px; font-weight: 700; fill: #263238; }
       .cardBody { font-family: Arial, sans-serif; font-size: 22px; font-weight: 400; fill: #263238; }
       .cardNote { font-family: Arial, sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0; fill: #263238; }
       .loopTitle { font-family: Arial, sans-serif; font-size: 26px; font-weight: 700; fill: #263238; }
@@ -44,7 +45,7 @@
     <path d="M1092 436 L1102 445 L1092 454"/>
     <path d="M1404 445 C1424 442 1436 442 1452 445"/>
     <path d="M1442 436 L1452 445 L1442 454"/>
-    <path d="M1605 575 C1600 654 1484 700 1360 755"/>
+    <path d="M1605 520 C1600 640 1484 700 1360 755"/>
     <path d="M1372 742 L1360 755 L1378 755"/>
     <path d="M1080 865 C1010 865 940 865 870 865"/>
     <path d="M882 857 L870 865 L882 873"/>
@@ -117,12 +118,9 @@
   <g>
     <path d="M1696 322 L1720 322 L1732 334 L1732 371 L1696 371 Z" class="lineIcon"/>
     <path d="M1720 322 L1720 335 L1732 335 M1704 345 L1724 345 M1704 355 L1724 355" class="lineIcon"/>
-    <text class="cardTitle" x="1484" y="402">Published Vₙ</text>
-    <text class="cardBody" x="1484" y="448">The checked paper is saved</text>
-    <text class="cardBody" x="1484" y="480">as version Vₙ</text>
-    <text class="cardBody" x="1484" y="512">This run is finished</text>
-    <text class="cardBody" x="1484" y="544">before the review begins</text>
-    <path d="M1484 564 C1545 559 1640 568 1729 562" fill="none" stroke="#C39135" stroke-width="3" stroke-linecap="round"/>
+    <text class="outputTitle" x="1484" y="425">The new version</text>
+    <text class="outputTitle" x="1484" y="460">is saved in the folder</text>
+    <path d="M1484 500 C1545 495 1640 504 1729 498" fill="none" stroke="#C39135" stroke-width="3" stroke-linecap="round"/>
   </g>
 
   <!-- Cross-run feedback loop. -->
@@ -132,10 +130,8 @@
     <circle cx="1120" cy="798" r="22" fill="#6C5B7B" stroke="#263238" stroke-width="2"/>
     <path d="M1110 793 Q1110 785 1119 785 L1131 785 Q1140 785 1140 793 L1140 801 Q1140 809 1131 809 L1120 809 L1113 817 L1114 808 Q1110 805 1110 801 Z" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
     <text class="loopTitle" x="1156" y="804">A-Correcter</text>
-    <text class="loopBody" x="1112" y="844">Looks for useful leads</text>
-    <text class="loopBody" x="1112" y="875">to explore in future work</text>
-    <text class="loopBody" x="1112" y="906">It can’t edit or delay Vₙ</text>
-    <text class="loopBody" x="1112" y="937">If it fails, Vₙ stays published</text>
+    <text class="loopBody" x="1112" y="844">Offers ideas for next time</text>
+    <text class="loopBody" x="1112" y="875">Leaves the saved version alone</text>
   </g>
   <g>
     <path d="M510 786 L540 786 Q546 786 546 792 L546 816 Q546 822 540 822 L510 822 Q504 822 504 816 L504 792 Q504 786 510 786 Z" fill="#FFFFFF" stroke="#263238" stroke-width="2.5"/>
