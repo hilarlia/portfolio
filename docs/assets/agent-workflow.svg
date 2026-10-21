@@ -81,10 +81,9 @@
     <text class="cardTitle" x="434" y="402">A-Researcher</text>
     <text class="cardBody" x="434" y="448">Reads the paper and</text>
     <text class="cardBody" x="434" y="480">the checked source list</text>
-    <text class="cardBody" x="434" y="512">Suggests corrections</text>
-    <text class="cardBody" x="434" y="544">or ideas to explore</text>
-    <rect x="434" y="558" width="244" height="30" rx="15" fill="#FFFFFF" stroke="#2A9D8F" stroke-width="2"/>
-    <text class="cardNote" x="556" y="579" text-anchor="middle">No novelty test</text>
+    <text class="cardBody" x="434" y="512">Suggests fixes and ideas</text>
+    <text class="cardBody" x="434" y="544">No novelty filter</text>
+    <path d="M434 564 C500 559 612 568 680 562" fill="none" stroke="#2A9D8F" stroke-width="3" stroke-linecap="round"/>
   </g>
 
   <!-- A-Writer -->
@@ -126,12 +125,13 @@
   <!-- Cross-run feedback loop. -->
   <text class="inputNote" x="1080" y="710">After publication: a follow-up review</text>
   <g>
-    <rect class="card" x="1080" y="755" width="500" height="218" rx="24" fill="#E9E2EF"/>
+    <rect class="card" x="1080" y="755" width="500" height="170" rx="24" fill="#E9E2EF"/>
     <circle cx="1120" cy="798" r="22" fill="#6C5B7B" stroke="#263238" stroke-width="2"/>
     <path d="M1110 793 Q1110 785 1119 785 L1131 785 Q1140 785 1140 793 L1140 801 Q1140 809 1131 809 L1120 809 L1113 817 L1114 808 Q1110 805 1110 801 Z" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
     <text class="loopTitle" x="1156" y="804">A-Correcter</text>
     <text class="loopBody" x="1112" y="844">Offers ideas for next time</text>
     <text class="loopBody" x="1112" y="875">Leaves the saved version alone</text>
+    <path d="M1112 902 C1202 897 1450 907 1548 900" fill="none" stroke="#6C5B7B" stroke-width="3" stroke-linecap="round"/>
   </g>
   <g>
     <path d="M510 786 L540 786 Q546 786 546 792 L546 816 Q546 822 540 822 L510 822 Q504 822 504 816 L504 792 Q504 786 510 786 Z" fill="#FFFFFF" stroke="#263238" stroke-width="2.5"/>
