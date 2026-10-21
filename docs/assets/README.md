@@ -2,7 +2,7 @@
 
 ## Workflow diagram
 
-- `agent-workflow.svg`: a visual guide to how I use the agents. It follows a run from Scout to publication, then shows how Correcter's notes may carry into the next run. The original drawing uses the site's ink outlines and flat warm colors; it does not trace the reference illustrator's artwork. The project page embeds it directly.
+- `agent-workflow.svg`: a two-part visual guide. One side shows the run and its next-run feedback loop; the other maps the public prompts, skills, and tools alongside the local-only manuscript, run records, and saved versions. The original drawing uses the site's ink outlines and flat warm colors; it does not trace the reference illustrator's artwork. The project page embeds it directly.
 
 ## Campus panorama
 

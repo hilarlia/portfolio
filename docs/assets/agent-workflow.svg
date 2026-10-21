@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1160" viewBox="0 0 1800 1160" role="img" aria-labelledby="title desc">
-  <title id="title">Research workflow with a next-run feedback loop</title>
-  <desc id="desc">A diagram of how the author uses research agents: Scout checks sources, Researcher suggests changes, Writer revises a safe copy, and the controller builds before the new version is saved. Correcter reviews afterward and may leave ideas for later, but does not change the saved version.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="1400" viewBox="0 0 2500 1400" role="img" aria-labelledby="title desc">
+  <title id="title">How the research workflow works and where its files live</title>
+  <desc id="desc">A two-part diagram. On the left, Scout, Researcher, Writer, controller checks, publication, and the Correcter feedback loop into the next run. On the right, the public workflow code is located under agent-workflow-demo, while the working Paper, per-run Agent-Outputs, and saved AI-Versions remain local and gitignored.</desc>
   <defs>
     <marker id="arrow-ink" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
       <path d="M1 1 L11 6 L1 11" fill="none" stroke="#263238" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -23,12 +23,20 @@
       .loopBody { font-family: Arial, sans-serif; font-size: 22px; font-weight: 400; fill: #263238; }
       .arrowLabel { font-family: Arial, sans-serif; font-size: 17px; font-weight: 700; fill: #47545A; }
       .legend { font-family: Arial, sans-serif; font-size: 18px; font-weight: 400; fill: #263238; }
+      .panelTitle { font-family: Arial, sans-serif; font-size: 34px; font-weight: 700; fill: #263238; }
+      .panelSub { font-family: Arial, sans-serif; font-size: 21px; font-weight: 400; fill: #47545A; }
+      .treeSection { font-family: Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 1.2px; fill: #9E4938; }
+      .treeRoot { font-family: Menlo, Consolas, monospace; font-size: 24px; font-weight: 700; fill: #264653; }
+      .treePath { font-family: Menlo, Consolas, monospace; font-size: 21px; font-weight: 700; fill: #263238; }
+      .treeDesc { font-family: Arial, sans-serif; font-size: 19px; font-weight: 400; fill: #47545A; }
+      .treeLine { fill: none; stroke: #B9AA91; stroke-width: 2.5; stroke-linecap: round; }
       .lineIcon { fill: none; stroke: #263238; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
     </style>
   </defs>
 
   <!-- Warm paper ground and hand-inked editorial framing. -->
-  <rect width="1800" height="1160" fill="#FBF6ED"/>
+  <rect width="2500" height="1400" fill="#FBF6ED"/>
+  <g id="workflow-panel" transform="translate(20 60) scale(.9)">
   <path d="M58 202 C410 196 790 207 1140 201 S1570 198 1740 204" fill="none" stroke="#D8C8AA" stroke-width="2" stroke-linecap="round"/>
   <text class="kicker" x="62" y="68">MY RESEARCH WORKFLOW</text>
   <text class="heading" x="60" y="124">How I use research agents</text>
@@ -150,4 +158,65 @@
   <path d="M598 1032 L610 1040 L598 1048" fill="none" stroke="#6C5B7B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
   <text class="legend" x="630" y="1047">steps followed in the next run</text>
   <text class="legend" x="60" y="1100">The review comes after publication, so it can’t hold up the version that’s already finished.</text>
+  </g>
+
+  <!-- Folder map: descriptions and branch lines, not agent boxes. -->
+  <path d="M1640 72 L1640 1328" fill="none" stroke="#D8C8AA" stroke-width="2.5" stroke-linecap="round"/>
+  <text class="panelTitle" x="1690" y="112">Where things live</text>
+  <text class="panelSub" x="1692" y="151">The repo holds workflow code. Paper data stays local.</text>
+
+  <text class="treeSection" x="1692" y="207">IN THE PORTFOLIO REPO</text>
+  <path d="M1703 250 L1722 250" class="treeLine"/>
+  <path d="M1703 250 L1703 716" class="treeLine"/>
+  <text class="treeRoot" x="1735" y="258">agent-workflow-demo/</text>
+
+  <path d="M1703 306 L1722 306" class="treeLine"/>
+  <text class="treePath" x="1735" y="313">workflow</text>
+  <text class="treeDesc" x="1735" y="339">Run, test, or resume the workflow</text>
+
+  <path d="M1703 365 L1722 365" class="treeLine"/>
+  <text class="treePath" x="1735" y="372">agent-workflow.json</text>
+  <text class="treeDesc" x="1735" y="398">Agent roles, limits, and paths</text>
+
+  <path d="M1703 424 L1722 424" class="treeLine"/>
+  <text class="treePath" x="1735" y="431">agents/prompts/</text>
+  <text class="treeDesc" x="1735" y="457">What each agent is asked to do</text>
+
+  <path d="M1703 483 L1722 483" class="treeLine"/>
+  <text class="treePath" x="1735" y="490">skills/</text>
+  <text class="treeDesc" x="1735" y="516">Writing and citation guidance</text>
+
+  <path d="M1703 542 L1722 542" class="treeLine"/>
+  <text class="treePath" x="1735" y="549">paper_workflow/runner.py</text>
+  <text class="treeDesc" x="1735" y="575">Coordinates each run and its checks</text>
+
+  <path d="M1703 601 L1722 601" class="treeLine"/>
+  <text class="treePath" x="1735" y="608">paper_workflow/nono_launcher.py</text>
+  <text class="treeDesc" x="1735" y="634">Runs agents and builds in isolation</text>
+
+  <path d="M1703 660 L1722 660" class="treeLine"/>
+  <text class="treePath" x="1735" y="667">paper_workflow/scout_retrieval.py</text>
+  <text class="treeDesc" x="1735" y="693">Finds sources and checks the details</text>
+
+  <path d="M1703 719 L1722 719" class="treeLine"/>
+  <text class="treePath" x="1735" y="726">paper_workflow/tests/</text>
+  <text class="treeDesc" x="1735" y="752">Offline checks for the workflow</text>
+
+  <path d="M1692 790 C1905 786 2244 795 2460 790" fill="none" stroke="#D8C8AA" stroke-width="2.5" stroke-linecap="round"/>
+  <text class="treeSection" x="1692" y="836">LOCAL ONLY · EXCLUDED FROM THE REPO</text>
+
+  <path d="M1703 876 L1722 876" class="treeLine"/>
+  <path d="M1703 876 L1703 1117" class="treeLine"/>
+  <text class="treePath" x="1735" y="883">Paper/</text>
+  <text class="treeDesc" x="1735" y="910">The current working manuscript</text>
+
+  <path d="M1703 957 L1722 957" class="treeLine"/>
+  <text class="treePath" x="1735" y="964">Agent-Outputs/runs/run-NNNNNN/</text>
+  <text class="treeDesc" x="1735" y="991">That run’s jobs, notes, logs, and handoffs</text>
+
+  <path d="M1703 1038 L1722 1038" class="treeLine"/>
+  <text class="treePath" x="1735" y="1045">AI-Versions/Vn/</text>
+  <text class="treeDesc" x="1735" y="1072">A saved paper version after successful builds</text>
+
+  <text class="treeDesc" x="1692" y="1150">The workflow is public; the paper, run records, and versions stay private.</text>
 </svg>
