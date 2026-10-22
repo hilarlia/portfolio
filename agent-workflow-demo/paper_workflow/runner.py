@@ -578,7 +578,7 @@ def _prompt(config: dict, role: str, job: dict, run_dir: Path, prior_error: str 
             prior_ids = [item["id"] for item in scout_sources if item["id"] in indexed]
             extra += ("\nResearcher source-use scope: current-run PDFs are handled by A-Scout, not this role. "
                       "Do not attempt network searches or new-PDF extraction; use relevant indexed findings from Read-Papers.json and cite only IDs from the current prior-ID list. "
-                      "Current prior IDs: " + json.dumps(prior_ids) + ". Return papers_read as [] exactly and put only relevant current prior IDs in prior_papers_reused. "
+                      "Allowed prior_papers_reused IDs from Read-Papers.json (use only a relevant subset): " + json.dumps(prior_ids) + ". This is the complete allowed list. Do not include IDs that appear only in the current Scout Overview; they are not previously read/indexed sources. Return papers_read as [] exactly because Scout owns current-run PDF reading. "
                       + "Source/provenance checks still apply; novelty is not an acceptance test.\n")
     example = {"status": "ok", "summary": "Replace with your actual concise summary."}
     role_response_fields = {
@@ -1338,8 +1338,12 @@ def _canonicalize_research_sources(payload: dict, run_dir: Path) -> tuple[set[st
     new_ids = [item.get("id") for item in current_reads if isinstance(item, dict)]
     if len(new_ids) != len(current_reads) or len(new_ids) != len(set(new_ids)):
         raise WorkflowError("papers_read must contain unique source-ID records")
-    if len(prior_ids) != len(set(prior_ids)) or set(prior_ids) - indexed_ids:
-        raise WorkflowError("prior_papers_reused must contain unique IDs already in Read-Papers.json")
+    if len(prior_ids) != len(set(prior_ids)):
+        raise WorkflowError("prior_papers_reused must contain unique IDs")
+    unknown_prior_ids = sorted(set(prior_ids) - indexed_ids)
+    if unknown_prior_ids:
+        raise WorkflowError("prior_papers_reused must contain unique IDs already in Read-Papers.json; unknown IDs: "
+                            + ", ".join(unknown_prior_ids))
     if set(new_ids) & set(prior_ids):
         raise WorkflowError("A source cannot be both newly read and previously read")
     scout = _all_scout_sources(run_dir)

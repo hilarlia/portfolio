@@ -526,6 +526,8 @@ class WorkflowTests(unittest.TestCase):
         job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Researcher", 1, self.paper_hash)
         prompt = runner._prompt(self.config, "A-Researcher", job, self.run_dir)
         self.assertIn("Return papers_read as [] exactly", prompt)
+        self.assertIn('Allowed prior_papers_reused IDs from Read-Papers.json (use only a relevant subset): ["S1", "S2", "S3", "S4", "S5"]', prompt)
+        self.assertIn("Do not include IDs that appear only in the current Scout Overview", prompt)
         researcher_prompt = (Path(__file__).resolve().parents[2] / "agents/prompts/A-Researcher.md").read_text()
         self.assertIn("A-Scout owns primary source retrieval and full-text verification", researcher_prompt)
 
@@ -576,8 +578,8 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("Forward every supported improvement", researcher_prompt)
         bad = copy.deepcopy(researcher)
         bad["papers_read"] = []
-        bad["prior_papers_reused"] = [f"S{i}" for i in range(1, 6)]
-        with self.assertRaisesRegex(runner.WorkflowError, "already in Read-Papers.json"):
+        bad["prior_papers_reused"] = ["S29"]
+        with self.assertRaisesRegex(runner.WorkflowError, "unknown IDs: S29"):
             runner.validate_agent_payload("A-Researcher", bad, self.run_dir, self.config)
 
     def test_researcher_accepts_more_than_three_corrections_without_novelty_fields(self):
