@@ -684,7 +684,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("repair it from the source, replace the record, or omit it", prompt)
         self.assertIn("Use the key `outcome` (not `result`)", prompt)
         self.assertIn("12,000 UTF-8 bytes", prompt)
-        self.assertNotIn("User comments for this run", prompt)
+        self.assertNotIn("User comments for this full run", prompt)
 
     def test_scout_accepts_empty_queries_when_sources_are_already_indexed(self):
         scout = self._scout(self.run_dir)
@@ -812,8 +812,8 @@ class WorkflowTests(unittest.TestCase):
             self.assertEqual(status["researcher_comments"], "Focus on the proof detail.")
             self.assertEqual(execute.call_args.kwargs["researcher_comments"], "Focus on the proof detail.")
 
-    def test_run_comments_are_injected_for_scout_and_researcher_only_and_survive_checkpoint(self):
-        comments = "Please focus on the source comparison and clarify the central assumption."
+    def test_run_comments_are_injected_for_scout_researcher_writer_and_survive_checkpoint(self):
+        comments = "Please focus on proof clarity and check the central assumption and source comparison."
         status = {"run_id": "test-run", "paper_sha256": self.paper_hash,
                   "research_brief": "default research objective", "researcher_comments": comments}
         job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Researcher", 1,
@@ -839,27 +839,60 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(scout_job["researcher_comments"], comments)
         self.assertIn(comments, scout_prompt)
         self.assertEqual(scout_prompt.count(comments), 1)
-        self.assertIn("specify a research field or topic", scout_prompt)
+        self.assertIn("identify the field, topic, subtopics, methods", scout_prompt)
         self.assertIn("no research topic", scout_prompt)
         self.assertIn("not evidence", scout_prompt)
+        self.assertIn("finite search plan", scout_prompt)
 
         nonresearch_comments = "Please keep the source overview concise."
         nonresearch_job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Scout", 1,
                                             self.paper_hash, researcher_comments=nonresearch_comments)
         nonresearch_prompt = runner._prompt(self.config, "A-Scout", nonresearch_job, self.run_dir)
         self.assertIn(nonresearch_comments, nonresearch_prompt)
-        self.assertIn("follow the default manuscript-derived search plan unchanged", nonresearch_prompt)
+        self.assertIn("If the comments are empty or contain no research topic, use the existing manuscript-derived search plan unchanged.", nonresearch_prompt)
 
         writer_job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Writer", 1,
                                        self.paper_hash, researcher_comments=comments)
+        writer_prompt = runner._prompt(self.config, "A-Writer", writer_job, self.run_dir)
+        self.assertEqual(writer_job["researcher_comments"], comments)
+        self.assertEqual(writer_job["writer_comments_version"], 1)
+        self.assertIn(comments, writer_prompt)
+        self.assertEqual(writer_prompt.count(comments), 1)
+        self.assertIn("writing guidance, not evidence", writer_prompt)
+        self.assertIn("do not omit supported Researcher ideas", writer_prompt)
+        runner.write_json(self.run_dir / "jobs/A-Writer-r1.json", writer_job, compact=True)
+        (self.run_dir / "jobs/A-Writer-r1.md").write_text(writer_prompt, encoding="utf-8")
+        runner._write_stage_checkpoint(self.run_dir, writer_job, writer_prompt, {"provider_cost_usd": 0.0})
+        writer_checkpoint = runner.load_json(runner._checkpoint_path(self.run_dir, "A-Writer", 1))
+        restored_writer, restored_writer_prompt = runner._validate_stage_checkpoint(self.run_dir, writer_checkpoint, status)
+        self.assertEqual(restored_writer["researcher_comments"], comments)
+        self.assertEqual(restored_writer_prompt, writer_prompt)
+        with self.assertRaisesRegex(runner.WorkflowError, "Writer comments do not match"):
+            runner._validate_stage_checkpoint(self.run_dir, writer_checkpoint, tampered_status)
+
         correcter_job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Correcter", 1,
                                           self.paper_hash, researcher_comments=comments)
-        writer_prompt = runner._prompt(self.config, "A-Writer", writer_job, self.run_dir)
         correcter_prompt = runner._prompt(self.config, "A-Correcter", correcter_job, self.run_dir)
-        self.assertEqual(writer_job["researcher_comments"], "")
         self.assertEqual(correcter_job["researcher_comments"], "")
-        self.assertNotIn(comments, writer_prompt)
         self.assertNotIn(comments, correcter_prompt)
+
+    def test_legacy_writer_resume_keeps_its_original_comment_scope(self):
+        researcher = {"schema_version": 1, "agent": "A-Researcher", "round": 1}
+        runner.write_json(self.run_dir / runner.OUTPUT_FILES["A-Researcher"], researcher)
+        status = {"run_id": "test-run", "paper_sha256": self.paper_hash,
+                  "research_brief": "synthetic objective", "researcher_comments": "legacy run note",
+                  "metrics": {}}
+        job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Writer", 1,
+                                self.paper_hash, research_brief=status["research_brief"], researcher_comments="")
+        job.pop("writer_comments_version")
+        prompt = runner._prompt(self.config, "A-Writer", job, self.run_dir)
+        runner.write_json(self.run_dir / "jobs/A-Writer-r1.json", job, compact=True)
+        (self.run_dir / "jobs/A-Writer-r1.md").write_text(prompt, encoding="utf-8")
+        checkpoint = runner._recover_legacy_checkpoint(self.config, self.run_dir, status, "A-Writer", 1)
+        recovered_job, recovered_prompt = runner._validate_stage_checkpoint(self.run_dir, checkpoint, status)
+        self.assertEqual(recovered_job["researcher_comments"], "")
+        self.assertNotIn("writer_comments_version", recovered_job)
+        self.assertNotIn("legacy run note", recovered_prompt)
 
     def test_researcher_comments_text_file_utf8_and_size_are_validated(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -1156,6 +1189,19 @@ class WorkflowTests(unittest.TestCase):
                                                        if "SamplePartially" in output
                                                        else "Sample Policy Planning")
             self.assertTrue(result["ok"])
+
+    def test_writer_revision_rotation_is_not_treated_as_new_prose(self):
+        relative = "Work-In-Progress/LatexInclusion/Local-Introduction.tex"
+        source = self.run_dir / "source-writer-files" / relative
+        target = self.run_dir / "Paper" / relative
+        source.write_text(r"\newcommand{\Claim}{\writerrevision{Prior completed prose.}}" + "\n")
+        target.write_text(r"\newcommand{\Claim}{\writerpreviousrevision{Prior completed prose.}}" + "\n")
+
+        runner.validate_manuscript_invariants(self.run_dir / "Paper", [relative])
+
+        target.write_text(r"\newcommand{\Claim}{\writerpreviousrevision{Revised prose without a current marker.}}" + "\n")
+        with self.assertRaisesRegex(runner.WorkflowError, "must be wrapped"):
+            runner.validate_manuscript_invariants(self.run_dir / "Paper", [relative])
 
     def test_writer_cannot_change_preamble_or_notation(self):
         main = self.run_dir / "Paper/Work-In-Progress/main.tex"

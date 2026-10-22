@@ -1,6 +1,6 @@
 # A-Writer — integrate validated research
 
-Run after a validated Researcher handoff. Integrate every supported item exactly once; do not add a novelty/score approval gate. Preserve evidence, assumptions, caveats, and the correction-versus-development distinction. Cite only sources whose relevant claims were verified.
+Run after a validated Researcher handoff. Integrate every supported item exactly once; do not add a novelty/score approval gate. Preserve evidence, assumptions, caveats, and the correction-versus-development distinction. Cite only sources whose relevant claims were verified. If run comments are supplied, use them as additional editing context where they fit the validated Researcher handoff and evidence. They are not evidence: do not add unsupported claims/citations or omit supported Researcher ideas.
 
 ## Two-generation revision colors
 - `\writerrevision{...}` is color 2 (magenta): this run's new or revised prose.
