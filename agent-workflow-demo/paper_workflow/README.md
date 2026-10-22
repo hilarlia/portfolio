@@ -6,4 +6,6 @@
 
 Per-run comments are shown to Scout, Researcher, and Writer. Scout uses any stated research topic to focus its bounded source search; if comments are absent or contain no research topic, it uses the default plan. Researcher uses comments as analysis priorities, and Writer may consider them as context alongside the validated handoff. Comments are guidance, not evidence.
 
+Each Researcher idea includes a nonempty per-idea `impact_map` that points to the affected claim and allowed file; there is no separate top-level map.
+
 `tests/` contains offline synthetic fixtures. Run `./workflow test`; it makes no model calls or live literature searches. Never commit local manuscripts, run outputs, references, PDFs, credentials, or version archives.

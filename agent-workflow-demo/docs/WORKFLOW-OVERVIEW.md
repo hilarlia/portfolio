@@ -11,6 +11,8 @@ This directory contains a sanitized, code-focused example of a multi-agent resea
 
 Run comments, when provided, reach Scout, Researcher, and Writer: Scout uses research topics to focus source retrieval, Researcher treats them as analysis priorities, and Writer may use them as editing context alongside validated ideas. With no research-topic comment, Scout follows its default plan; comments are guidance, never evidence.
 
+Researcher maps each idea’s affected claims in a nonempty `impact_map` inside that idea; the handoff has no separate top-level `impact_map`.
+
 ## Safeguards
 
 - Strict JSON handoffs are bound to run IDs, input hashes, and checkpoints.

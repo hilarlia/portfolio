@@ -595,7 +595,7 @@ def _prompt(config: dict, role: str, job: dict, run_dir: Path, prior_error: str 
     example = {"status": "ok", "summary": "Replace with your actual concise summary."}
     role_response_fields = {
         "A-Scout": "papers, techniques, queries, limitations",
-        "A-Researcher": "ideas, impact_map, narrative_plan, papers_read, prior_papers_reused, no_idea_reason",
+        "A-Researcher": "ideas, narrative_plan, papers_read, prior_papers_reused, no_idea_reason",
         "A-Writer": "integrated_idea_ids, changed_files, unresolved",
         "A-Correcter": "feedback, queries, limitations",
     }[role]
@@ -1634,7 +1634,10 @@ def validate_agent_payload(role: str, payload: dict, run_dir: Path, config: dict
                     for key, value in idea["source_context"].items())
             impact_map = idea.get("impact_map")
             if not isinstance(impact_map, list) or not impact_map:
-                raise WorkflowError("A-Researcher ideas require a nonempty manuscript impact_map")
+                idea_id = idea.get("id")
+                if not isinstance(idea_id, str) or not idea_id.strip():
+                    idea_id = "<unknown>"
+                raise WorkflowError(f"A-Researcher idea {idea_id!r} requires a nonempty per-idea impact_map array")
             impact_ids = set()
             allowed_paper_paths = {"Paper/" + item for item in WRITER_FILES}
             valid_impact_map = []

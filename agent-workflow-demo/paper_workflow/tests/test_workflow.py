@@ -546,6 +546,17 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(runner._ghostscript_source_paths(f"cat {path}", [path]), [])
         self.assertFalse(runner._valid_pdf_text_output("error: command not found"))
 
+    def test_researcher_requires_impact_map_inside_each_idea(self):
+        researcher = self._researcher(1, self.run_dir)
+        researcher["impact_map"] = copy.deepcopy(researcher["ideas"][0]["impact_map"])
+        researcher["ideas"][0].pop("impact_map")
+        job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Researcher", 1, self.paper_hash)
+        prompt = runner._prompt(self.config, "A-Researcher", job, self.run_dir)
+        self.assertIn("Do not return a separate top-level `impact_map`", prompt)
+        self.assertIn("nonempty `impact_map` array inside that idea", prompt)
+        with self.assertRaisesRegex(runner.WorkflowError, "idea 'I1'.*nonempty per-idea impact_map"):
+            runner.validate_agent_payload("A-Researcher", researcher, self.run_dir, self.config)
+
     def test_researcher_must_read_new_sources_and_reuse_only_indexed_ids(self):
         scout = self._scout(self.run_dir)
         runner.write_json(self.run_dir / "Agent-Outputs/A-Scout/Overview.json", scout)
