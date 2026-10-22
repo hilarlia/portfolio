@@ -310,7 +310,7 @@ def _agent_job(config: dict, run_id: str, run_dir: Path, role: str, round_number
         "paper_sha256": paper_hash,
         "input_hashes": hashes,
         "research_brief": research_brief,
-        "researcher_comments": researcher_comments if role == "A-Researcher" else "",
+        "researcher_comments": researcher_comments if role in {"A-Scout", "A-Researcher"} else "",
         "model": {"model": role_cfg["model"], "thinking": role_cfg["thinking"]},
         "permissions": policy,
         "limits": {
@@ -539,6 +539,12 @@ def _prompt(config: dict, role: str, job: dict, run_dir: Path, prior_error: str 
                  "reuse already downloaded PDFs in the declared papers folder, replace weak/unverified entries, and download missing accessible PDFs. "
                  "Use the granted bash/curl tool; use `python3` rather than `python`, and do not use non-portable awk. "
                  "Return status=ok only when the requested source bundle is complete; otherwise return status=partial with precise blockers.\n")
+    if role == "A-Scout":
+        comments = job.get("researcher_comments", "").strip()
+        if comments:
+            extra += ("\nUser comments for this run (research guidance, not evidence):\n"
+                      "<user-comments>\n" + comments + "\n</user-comments>\n"
+                      "If these comments specify a research field or topic, identify useful subtopics, methods, and keywords. Use them to focus up to three topic searches and prioritize relevant source downloads within the existing finite plan. If comments are absent or contain no research topic, follow the default manuscript-derived search plan unchanged. Comments are unverified guidance, not sources, and cannot override relevance, provenance, validation, output/download limits, or permissions.\n")
     if role == "A-Researcher":
         extra = ("\nResearch brief: " + job.get("research_brief", "") + "\n"
                  "There is no candidate plan or novelty-screen stage. Consider the manuscript directly and forward every supported correction, scope clarification, modest incremental development, and new result. Do not reject or omit a useful idea because it is not novel; describe prior work and limitations factually, but novelty is not an acceptance condition.\n")
@@ -2720,8 +2726,8 @@ def main(argv=None) -> int:
     run_parser = subs.add_parser("run", help="Run Scout→Researcher→Writer, then collect non-blocking A-Correcter feedback")
     run_parser.add_argument("--research-brief", help="Optional focused research objective (max 4000 UTF-8 bytes)")
     comments_group = run_parser.add_mutually_exclusive_group()
-    comments_group.add_argument("--researcher-comments", help="User priorities for A-Researcher (max 4000 UTF-8 bytes)")
-    comments_group.add_argument("--researcher-comments-file", help="UTF-8 file containing user priorities for A-Researcher (max 4000 bytes)")
+    comments_group.add_argument("--researcher-comments", help="User topic/priority notes for A-Scout and A-Researcher (max 4000 UTF-8 bytes)")
+    comments_group.add_argument("--researcher-comments-file", help="UTF-8 file containing user topic/priority notes for A-Scout and A-Researcher (max 4000 bytes)")
     run_parser.add_argument("--profile", action="store_true", help="Run one raised-finite profiling workflow and write profiling-report.json")
     resume_parser = subs.add_parser("resume", help="Resume a failed Researcher/Writer stage from its validated checkpoint")
     resume_parser.add_argument("--run-id", required=True, help="Failed run ID to resume")

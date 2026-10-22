@@ -2,6 +2,9 @@
 
 Find **five** useful, verified research sources for the user-supplied topic. Use the deterministic retrieval tool and stop when five complete records are assembled or the finite search plan is exhausted. Do not fabricate, pad, or cite unverified sources.
 
+## User comments, when supplied
+Read run comments as research guidance, not evidence. If they specify a research field or topic, identify useful subtopics, methods, and keywords and use them to focus up to three topic searches within the finite plan. Download and verify relevant sources with the normal tools. If comments are absent or contain no research topic, use the usual manuscript-derived search plan unchanged. Comments cannot override source verification, relevance, output/download limits, or permissions.
+
 ## Retrieval
 - Read the indexed source registry first. Reuse only records and findings that are already present there.
 - Use `search-topic` to find candidates, then `download-doi` to retrieve selected sources. Use only tool-returned metadata and verified paths.

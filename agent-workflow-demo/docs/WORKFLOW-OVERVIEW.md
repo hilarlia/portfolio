@@ -9,6 +9,8 @@ This directory contains a sanitized, code-focused example of a multi-agent resea
 3. **Writer** integrates the handoff in a disposable snapshot; source checks, file allowlists, invariants, and isolated builds protect publication.
 4. **Correcter** runs after publication, provides read-only advisory feedback, and cannot invalidate the completed version.
 
+Run comments, when provided, reach both Scout and Researcher: Scout uses research topics to focus source retrieval, and Researcher treats them as analysis priorities. With no research-topic comment, Scout follows its default plan; comments are guidance, never evidence.
+
 ## Safeguards
 
 - Strict JSON handoffs are bound to run IDs, input hashes, and checkpoints.

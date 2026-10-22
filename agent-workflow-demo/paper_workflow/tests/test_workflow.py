@@ -682,6 +682,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("repair it from the source, replace the record, or omit it", prompt)
         self.assertIn("Use the key `outcome` (not `result`)", prompt)
         self.assertIn("12,000 UTF-8 bytes", prompt)
+        self.assertNotIn("User comments for this run", prompt)
 
     def test_scout_accepts_empty_queries_when_sources_are_already_indexed(self):
         scout = self._scout(self.run_dir)
@@ -809,8 +810,8 @@ class WorkflowTests(unittest.TestCase):
             self.assertEqual(status["researcher_comments"], "Focus on the proof detail.")
             self.assertEqual(execute.call_args.kwargs["researcher_comments"], "Focus on the proof detail.")
 
-    def test_researcher_comments_are_injected_only_for_researcher_and_survive_checkpoint(self):
-        comments = "Please focus on proof clarity and check the trajectory reward convention."
+    def test_run_comments_are_injected_for_scout_and_researcher_only_and_survive_checkpoint(self):
+        comments = "Please focus on the source comparison and clarify the central assumption."
         status = {"run_id": "test-run", "paper_sha256": self.paper_hash,
                   "research_brief": "default research objective", "researcher_comments": comments}
         job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Researcher", 1,
@@ -830,16 +831,33 @@ class WorkflowTests(unittest.TestCase):
         tampered_status = {**status, "researcher_comments": "changed after checkpoint"}
         with self.assertRaisesRegex(runner.WorkflowError, "comments do not match"):
             runner._validate_stage_checkpoint(self.run_dir, checkpoint, tampered_status)
-        writer_job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Writer", 1,
-                                       self.paper_hash, researcher_comments=comments)
-        writer_prompt = runner._prompt(self.config, "A-Writer", writer_job, self.run_dir)
         scout_job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Scout", 1,
                                       self.paper_hash, researcher_comments=comments)
         scout_prompt = runner._prompt(self.config, "A-Scout", scout_job, self.run_dir)
+        self.assertEqual(scout_job["researcher_comments"], comments)
+        self.assertIn(comments, scout_prompt)
+        self.assertEqual(scout_prompt.count(comments), 1)
+        self.assertIn("specify a research field or topic", scout_prompt)
+        self.assertIn("no research topic", scout_prompt)
+        self.assertIn("not evidence", scout_prompt)
+
+        nonresearch_comments = "Please keep the source overview concise."
+        nonresearch_job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Scout", 1,
+                                            self.paper_hash, researcher_comments=nonresearch_comments)
+        nonresearch_prompt = runner._prompt(self.config, "A-Scout", nonresearch_job, self.run_dir)
+        self.assertIn(nonresearch_comments, nonresearch_prompt)
+        self.assertIn("follow the default manuscript-derived search plan unchanged", nonresearch_prompt)
+
+        writer_job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Writer", 1,
+                                       self.paper_hash, researcher_comments=comments)
+        correcter_job = runner._agent_job(self.config, "test-run", self.run_dir, "A-Correcter", 1,
+                                          self.paper_hash, researcher_comments=comments)
+        writer_prompt = runner._prompt(self.config, "A-Writer", writer_job, self.run_dir)
+        correcter_prompt = runner._prompt(self.config, "A-Correcter", correcter_job, self.run_dir)
         self.assertEqual(writer_job["researcher_comments"], "")
-        self.assertEqual(scout_job["researcher_comments"], "")
+        self.assertEqual(correcter_job["researcher_comments"], "")
         self.assertNotIn(comments, writer_prompt)
-        self.assertNotIn(comments, scout_prompt)
+        self.assertNotIn(comments, correcter_prompt)
 
     def test_researcher_comments_text_file_utf8_and_size_are_validated(self):
         with tempfile.TemporaryDirectory() as temp:
